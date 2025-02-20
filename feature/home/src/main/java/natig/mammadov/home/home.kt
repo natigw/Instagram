@@ -243,7 +243,7 @@ fun StoryItem(
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = if (storyItem.isUser) "Your story" else storyItem.username,
+            text = if (storyItem.isUser) "Your story" else if (storyItem.storyType == StoryType.LIVE_WITH_OTHERS) "${storyItem.username} +1" else storyItem.username,
             style = if (storyItem.isUser || storyItem.hasAlreadySeen) InstagramTypography.bodySmall.copy(
                 color = TextSubtle
             ) else InstagramTypography.bodySmall,

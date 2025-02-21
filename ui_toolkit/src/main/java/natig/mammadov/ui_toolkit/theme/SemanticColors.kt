@@ -27,6 +27,7 @@ val BackgroundDefault = White100
 val BackgroundDefaultInverted = Black100
 val BackgroundSubtle = Gray60
 val BackgroundSubtler = Gray40
+val BackgroundSubtlerLight = Gray20
 val BackgroundInteractive = Blue60
 val BackgroundNotification = Red100
 val BackgroundLive = Pink100

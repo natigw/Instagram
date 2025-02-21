@@ -49,9 +49,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundExclusive
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
 import natig.mammadov.ui_toolkit.theme.BackgroundLive
+import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BackgroundTranslucentInvertedSubtle
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
 import natig.mammadov.ui_toolkit.theme.BorderDefault
@@ -75,7 +77,9 @@ import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
 @Composable
 fun Home() {
-    Column {
+    Column(
+        modifier = Modifier.background(color = BackgroundDefault)
+    ) {
         TopBar()
         Stories()
         Posts()
@@ -188,9 +192,7 @@ fun Stories() {
 
 @Composable
 fun Posts() {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    LazyColumn {
         items(20) {
             PostItem(
                 PostItemDto(
@@ -201,6 +203,7 @@ fun Posts() {
                     hasStory = Random.nextBoolean(),
                     seenStory = Random.nextBoolean(),
                     isExclusive = Random.nextBoolean(),
+                    isSuggestedAccount = Random.nextBoolean(),
                     country = "Baku, Azerbaijan"
                 ),
                 PostDetailsDto(
@@ -235,7 +238,8 @@ fun Posts() {
                     postImageUrl = "https://picsum.photos/200/300",
                     hasStory = Random.nextBoolean(),
                     seenStory = Random.nextBoolean(),
-                    isExclusive = Random.nextBoolean()
+                    isExclusive = Random.nextBoolean(),
+                    isSuggestedAccount = Random.nextBoolean()
                 ),
                 PostDetailsDto(
                     postCount = Random.nextInt(8),
@@ -269,7 +273,8 @@ fun Posts() {
                     hasStory = Random.nextBoolean(),
                     seenStory = Random.nextBoolean(),
                     isExclusive = Random.nextBoolean(),
-                    country = "Baku, Azerbaijan"
+                    country = "Baku, Azerbaijan",
+                    isSuggestedAccount = true
                 ),
                 PostDetailsDto(
                     postCount = Random.nextInt(8),
@@ -294,6 +299,7 @@ fun Posts() {
                     postDate = "11 January"
                 )
             )
+            SuggestedReels()
         }
     }
 }
@@ -552,7 +558,6 @@ enum class StoryType {
 }
 
 
-
 enum class PostRatio(val ratio: Float) {
     PORTRAIT(0.8f),   // 4:5
     SQUARE(1f),     // 1:1
@@ -566,6 +571,40 @@ fun ReelPostItem(
     postDetails: PostDetailsDto
 ) {
     Column {
+        if (reelItem.isSuggestedAccount) {
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = buildAnnotatedString {
+                        withStyle(style = InstagramTypography.headlineMedium.toSpanStyle()) {
+                            append("Because you watched a reel from ")
+                        }
+                        withStyle(
+                            style = InstagramTypography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+                                .toSpanStyle()
+                        ) {
+                            append(reelItem.username)
+                        }
+                    }
+                )
+                Icon(
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = false),
+                            onClick = {
+
+                            }
+                        ),
+                    imageVector = ImageVector.vectorResource(drawableR.ic_close_16),
+                    contentDescription = "Close suggested post",
+                    tint = IconDefault
+                )
+            }
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -806,6 +845,7 @@ data class ReelItemDto(
     val hasStory: Boolean,
     val seenStory: Boolean = false,
     val isExclusive: Boolean,
+    val isSuggestedAccount: Boolean
 )
 
 @Composable
@@ -814,7 +854,40 @@ fun PostItem(
     postDetails: PostDetailsDto
 ) {
     Column {
-        HorizontalDivider(thickness = 1.dp, color = BorderSubtler)
+        if (postItem.isSuggestedAccount) {
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = buildAnnotatedString {
+                        withStyle(style = InstagramTypography.headlineMedium.toSpanStyle()) {
+                            append("Because you like a post from ")
+                        }
+                        withStyle(
+                            style = InstagramTypography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+                                .toSpanStyle()
+                        ) {
+                            append(postItem.username)
+                        }
+                    }
+                )
+                Icon(
+                    modifier = Modifier
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = false),
+                            onClick = {
+
+                            }
+                        ),
+                    imageVector = ImageVector.vectorResource(drawableR.ic_close_16),
+                    contentDescription = "Close suggested post",
+                    tint = IconDefault
+                )
+            }
+        } else HorizontalDivider(thickness = 1.dp, color = BorderSubtler)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -883,16 +956,59 @@ fun PostItem(
                         .background(color = BackgroundExclusive)
                 ) {
                     Row(
-                        modifier = Modifier.padding(start = 4.dp, end = 6.dp, top = 2.dp, bottom = 2.dp)
+                        modifier = Modifier.padding(
+                            start = 4.dp,
+                            end = 6.dp,
+                            top = 2.dp,
+                            bottom = 2.dp
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
                             contentDescription = "Exclusive reel",
                             tint = IconDefaultInverted
                         )
+                        Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "Exclusive",
-                            style = InstagramTypography.bodySmall.copy(fontWeight = FontWeight.SemiBold, color = TextDefaultInverted)
+                            style = InstagramTypography.bodySmall.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                color = TextDefaultInverted
+                            )
+                        )
+                    }
+                }
+            }
+
+            if (postItem.isSuggestedAccount) {
+                Box(
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(color = BackgroundSubtlerLight)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(
+                            start = 12.dp,
+                            end = 8.dp,
+                            top = 6.dp,
+                            bottom = 6.dp
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Follow",
+                            style = InstagramTypography.bodyLarge.copy(
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        )
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Icon(
+                            modifier = Modifier.size(12.dp),
+                            imageVector = ImageVector.vectorResource(drawableR.ic_arrow_down_16),
+                            contentDescription = "Exclusive reel",
+                            tint = IconDefault
                         )
                     }
                 }
@@ -976,7 +1092,8 @@ data class PostItemDto(
     val postImageUrl: String,
     val hasStory: Boolean,
     val seenStory: Boolean,
-    val isExclusive: Boolean
+    val isExclusive: Boolean,
+    val isSuggestedAccount: Boolean
 )
 
 
@@ -1251,6 +1368,8 @@ fun PostDetails(
             text = postDetails.postDate,
             style = InstagramTypography.bodySmall.copy(color = TextSubtle)
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -1273,6 +1392,48 @@ data class PostDetailsDto(
     val isCommentLiked: Boolean,
     val postDate: String
 )
+
+
+@Composable
+fun SuggestedReels() {
+    Column {
+        Text(
+            modifier = Modifier
+                .padding(12.dp),
+            text = "Suggested reels",
+            style = InstagramTypography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+        )
+
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            items(20) {
+                ReelPortraitItem(
+                    imageLink = "https://picsum.photos/900/1600"
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+    }
+}
+
+@Composable
+fun ReelPortraitItem(
+    imageLink: String
+) {
+    AsyncImage(
+        modifier = Modifier
+            .size(width = 110.dp, height = 194.dp)
+            .clip(RoundedCornerShape(4.dp)),
+        model = imageLink,
+        placeholder = painterResource(drawableR.ic_highlight_slides),
+        error = painterResource(drawableR.ic_launcher_background),
+        contentDescription = "Reel",
+        contentScale = ContentScale.Crop
+    )
+}
 
 @Preview(showSystemUi = true)
 @Composable

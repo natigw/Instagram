@@ -114,7 +114,7 @@ val InstagramTypography = Typography(
     ),
     bodyMedium = TextStyle( //callout
         fontFamily = SFProFontFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Normal,  //Semibold
         fontSize = (fontSizeUnit * 12).sp,
         letterSpacing = 0.24.sp,
         color = TextDefault

@@ -41,9 +41,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -60,11 +62,13 @@ import natig.mammadov.ui_toolkit.theme.GradientLive
 import natig.mammadov.ui_toolkit.theme.GradientLiveSubtle
 import natig.mammadov.ui_toolkit.theme.GradientScrim
 import natig.mammadov.ui_toolkit.theme.GradientStory
+import natig.mammadov.ui_toolkit.theme.IconDefault
 import natig.mammadov.ui_toolkit.theme.IconDefaultInverted
 import natig.mammadov.ui_toolkit.theme.IconEmphasized
 import natig.mammadov.ui_toolkit.theme.InstagramTypography
 import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSubtle
+import natig.mammadov.ui_toolkit.theme.TextTag
 import kotlin.random.Random
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
@@ -86,6 +90,22 @@ fun Home() {
                 hasStory = Random.nextBoolean(),
                 seenStory = Random.nextBoolean(),
                 isExclusive = Random.nextBoolean()
+            ),
+            PostDetailsDto(
+                postCount = Random.nextInt(8),
+                likeCount = Random.nextInt(999999),
+                commentCount = Random.nextInt(9999),
+                shareCount = Random.nextInt(100),
+                isPostLiked = Random.nextBoolean(),
+                isPostSaved = Random.nextBoolean(),
+                userLikingPost = "user_your_friend",
+                usernameAuthor = "author_ww_long_nameeeee_salam",
+                postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
+                usernameCommenter = "commenter_6889",
+                commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
+                hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                isCommentLiked = Random.nextBoolean(),
+                postDate = "11 January"
             )
         )
     }
@@ -112,7 +132,8 @@ fun TopBar() {
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(drawableR.ic_like_outlined),
-                contentDescription = "Notifications"
+                contentDescription = "Notifications",
+                tint = IconDefault
             )
             Box(
                 modifier = Modifier
@@ -133,7 +154,8 @@ fun TopBar() {
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(drawableR.ic_share),
-                contentDescription = "Share"
+                contentDescription = "Share",
+                tint = IconDefault
             )
             Box(
                 modifier = Modifier
@@ -435,209 +457,214 @@ enum class StoryType {
 
 @Composable
 fun PostItemReel(
-    reelItem: ReelItemDto
+    reelItem: ReelItemDto,
+    postDetails: PostDetailsDto
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-    ) {
-        AsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    Log.e("Click Zone", "SAFE_ZONE -> CLICK")
-                },
-            model = reelItem.postImageUrl,
-            contentDescription = "Reel post image",
-            contentScale = ContentScale.Crop
-        )
-
-        //DEAD ZONES
+    Column {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(63.dp)
-                .align(Alignment.TopCenter)
-                .clickable(
-                    enabled = false,
-                    onClick = {
-                        Log.e("Click Zone", "DEAD_ZONE -> NON-CLICK")
-                    }
-                )
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .align(Alignment.BottomCenter)
-                .clickable(
-                    enabled = false,
-                    onClick = {
-                        Log.e("Click Zone", "DEAD_ZONE -> NON-CLICK")
-                    }
-                )
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(95.dp)
-                .background(brush = GradientScrim)
-        )
-        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(start = 6.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
-                    .size(34.dp)
-                    .border(
-                        width = if (reelItem.seenStory) 1.dp else 1.5.dp,
-                        brush = if (reelItem.seenStory) SolidColor(BorderStrokeDefault) else GradientStory,
-                        shape = CircleShape
-                    )
-                    .padding(3.dp)
-                    .border(width = 0.5.dp, color = BorderSubtler, shape = CircleShape)
-                    .clip(CircleShape)
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
-
-                        }
-                    ),
-                painter = painterResource(drawableR.ic_launcher_background),
-                contentDescription = "User profile picture",
+                    .fillMaxWidth()
+                    .clickable {
+                        Log.e("Click Zone", "SAFE_ZONE -> CLICK")
+                    },
+                model = reelItem.postImageUrl,
+                contentDescription = "Reel post image",
                 contentScale = ContentScale.Crop
             )
-            Column(
+
+            //DEAD ZONES
+            Box(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(vertical = 1.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(start = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = reelItem.username,
-                        style = InstagramTypography.headlineMedium.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            color = TextDefaultInverted
-                        )
+                    .fillMaxWidth()
+                    .height(63.dp)
+                    .align(Alignment.TopCenter)
+                    .clickable(
+                        enabled = false,
+                        onClick = {
+                            Log.e("Click Zone", "DEAD_ZONE -> NON-CLICK")
+                        }
                     )
-                    Icon(
-                        imageVector = ImageVector.vectorResource(drawableR.ic_verified_badge_small_16),
-                        contentDescription = "verified account",
-                        tint = IconDefaultInverted
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .align(Alignment.BottomCenter)
+                    .clickable(
+                        enabled = false,
+                        onClick = {
+                            Log.e("Click Zone", "DEAD_ZONE -> NON-CLICK")
+                        }
                     )
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .padding(horizontal = 2.dp),
-                        imageVector = ImageVector.vectorResource(drawableR.ic_arrow_top_right_16),
-                        contentDescription = "open song??",
-                        tint = IconDefaultInverted
-                    )
-                    Text(
-                        text = reelItem.artistName,
-                        style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 2.dp),
-                        text = "•",
-                        style = InstagramTypography.labelMedium.copy(color = TextDefaultInverted)
-                    )
-                    Text(
-                        text = reelItem.songTitle,
-                        style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
-                    )
-                }
-            }
+            )
 
             Box(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(color = BackgroundExclusive)
+                    .fillMaxWidth()
+                    .height(95.dp)
+                    .background(brush = GradientScrim)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = 6.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                Image(
+                    modifier = Modifier
+                        .size(34.dp)
+                        .border(
+                            width = if (reelItem.seenStory) 1.dp else 1.5.dp,
+                            brush = if (reelItem.seenStory) SolidColor(BorderStrokeDefault) else GradientStory,
+                            shape = CircleShape
+                        )
+                        .padding(3.dp)
+                        .border(width = 0.5.dp, color = BorderSubtler, shape = CircleShape)
+                        .clip(CircleShape)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = false),
+                            onClick = {
+
+                            }
+                        ),
+                    painter = painterResource(drawableR.ic_launcher_background),
+                    contentDescription = "User profile picture",
+                    contentScale = ContentScale.Crop
+                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(vertical = 1.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(start = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = reelItem.username,
+                            style = InstagramTypography.headlineMedium.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                color = TextDefaultInverted
+                            )
+                        )
+                        Icon(
+                            imageVector = ImageVector.vectorResource(drawableR.ic_verified_badge_small_16),
+                            contentDescription = "verified account",
+                            tint = IconDefaultInverted
+                        )
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .padding(horizontal = 2.dp),
+                            imageVector = ImageVector.vectorResource(drawableR.ic_arrow_top_right_16),
+                            contentDescription = "open song??",
+                            tint = IconDefaultInverted
+                        )
+                        Text(
+                            text = reelItem.artistName,
+                            style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal = 2.dp),
+                            text = "•",
+                            style = InstagramTypography.labelMedium.copy(color = TextDefaultInverted)
+                        )
+                        Text(
+                            text = reelItem.songTitle,
+                            style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(color = BackgroundExclusive)
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(vertical = 2.dp, horizontal = 4.dp),
+                        imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
+                        contentDescription = "Exclusive reel",
+                        tint = IconDefaultInverted
+                    )
+                }
+
                 Icon(
                     modifier = Modifier
-                        .padding(vertical = 2.dp, horizontal = 4.dp),
-                    imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
-                    contentDescription = "Exclusive reel",
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = false),
+                            onClick = {
+
+                            }
+                        ),
+                    imageVector = ImageVector.vectorResource(drawableR.ic_options),
+                    contentDescription = "Reel options",
                     tint = IconDefaultInverted
                 )
             }
-
-            Icon(
+            Row(
                 modifier = Modifier
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .background(color = BackgroundTranslucentInvertedSubtle)
+                        .padding(4.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = false),
+                            onClick = {
 
-                        }
-                    ),
-                imageVector = ImageVector.vectorResource(drawableR.ic_options),
-                contentDescription = "Reel options",
-                tint = IconDefaultInverted
-            )
+                            }
+                        ),
+                    imageVector = ImageVector.vectorResource(drawableR.ic_tagged_16),
+                    contentDescription = "Tagged users to this reel",
+                    tint = IconDefaultInverted
+                )
+
+                Icon(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .background(color = BackgroundTranslucentInvertedSubtle)
+                        .padding(4.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = false),
+                            onClick = {
+
+                            }
+                        ),
+                    imageVector = ImageVector.vectorResource(drawableR.ic_sound_on_16),
+                    contentDescription = "Sound on this reel",
+                    tint = IconDefaultInverted
+                )
+            }
         }
-        Row(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Icon(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .background(color = BackgroundTranslucentInvertedSubtle)
-                    .padding(4.dp)
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
 
-                        }
-                    ),
-                imageVector = ImageVector.vectorResource(drawableR.ic_tagged_16),
-                contentDescription = "Tagged users to this reel",
-                tint = IconDefaultInverted
-            )
-
-            Icon(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .background(color = BackgroundTranslucentInvertedSubtle)
-                    .padding(4.dp)
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
-
-                        }
-                    ),
-                imageVector = ImageVector.vectorResource(drawableR.ic_sound_on_16),
-                contentDescription = "Sound on this reel",
-                tint = IconDefaultInverted
-            )
-        }
+        PostDetails(postDetails)
     }
 }
 
@@ -651,6 +678,291 @@ data class ReelItemDto(
     val hasStory: Boolean,
     val seenStory: Boolean = false,
     val isExclusive: Boolean,
+)
+
+
+@Composable
+fun PostDetails(
+    postDetails: PostDetailsDto
+) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 12.dp, vertical = 16.dp)
+    ) {
+
+        //TODO- > carousel for multiple posts
+
+        Row(
+            modifier = Modifier
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+//                modifier = Modifier
+                //TODO -> butun buttonlara click qoy
+//                    .clickable(
+//                        interactionSource = remember { MutableInteractionSource() },
+//                        indication = rememberRipple(bounded = false),
+//                        onClick = {
+//
+//                        }
+//                    ),
+                imageVector = ImageVector.vectorResource(if (postDetails.isPostLiked) drawableR.ic_like_filled else drawableR.ic_like_outlined),
+                contentDescription = "Like post",
+                tint = if (postDetails.isPostLiked) IconEmphasized else IconDefault
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = postDetails.likeCount.toString(),
+                style = InstagramTypography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Icon(
+                imageVector = ImageVector.vectorResource(drawableR.ic_comment),
+                contentDescription = "Comment on post",
+                tint = IconDefault
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = postDetails.commentCount.toString(),
+                style = InstagramTypography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Icon(
+                imageVector = ImageVector.vectorResource(drawableR.ic_share),
+                contentDescription = "Share post",
+                tint = IconDefault
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = postDetails.shareCount.toString(),
+                style = InstagramTypography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                imageVector = ImageVector.vectorResource(if (postDetails.isPostSaved) drawableR.ic_save_filled else drawableR.ic_save_outlined),
+                contentDescription = "Save post",
+                tint = IconDefault
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .offset(x = (-2).dp)
+                    .width(42.dp)
+            ) {
+                Image(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .size(20.dp)
+                        .clip(CircleShape)
+                        .border(
+                            width = 2.dp,
+                            color = BorderDefaultInverted,
+                            shape = CircleShape
+                        )
+                        .padding(2.dp)
+                        .border(
+                            width = 0.5.dp,
+                            color = BorderSubtler,
+                            shape = CircleShape
+                        ),
+                    painter = painterResource(drawableR.ic_launcher_background),
+                    contentDescription = "Users liking this post",
+                    contentScale = ContentScale.Crop
+                )
+                Image(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(20.dp)
+                        .clip(CircleShape)
+                        .border(
+                            width = 2.dp,
+                            color = BorderDefaultInverted,
+                            shape = CircleShape
+                        )
+                        .padding(2.dp)
+                        .border(
+                            width = 0.5.dp,
+                            color = BorderSubtler,
+                            shape = CircleShape
+                        ),
+                    painter = painterResource(drawableR.ic_launcher_background),
+                    contentDescription = "Users liking this post",
+                    contentScale = ContentScale.Crop
+                )
+                Image(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .size(20.dp)
+                        .clip(CircleShape)
+                        .border(
+                            width = 2.dp,
+                            color = BorderDefaultInverted,
+                            shape = CircleShape
+                        )
+                        .padding(2.dp)
+                        .border(
+                            width = 0.5.dp,
+                            color = BorderSubtler,
+                            shape = CircleShape
+                        ),
+                    painter = painterResource(drawableR.ic_launcher_background),
+                    contentDescription = "Users liking this post",
+                    contentScale = ContentScale.Crop
+                )
+            }
+
+            Spacer(modifier = Modifier.width(4.dp))
+
+            Text(
+                modifier = Modifier.weight(1f),
+                text = buildAnnotatedString {
+                    withStyle(style = InstagramTypography.bodyLarge.toSpanStyle()) {
+                        append("Liked by ")
+                    }
+                    withStyle(
+                        style = InstagramTypography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+                            .toSpanStyle()
+                    ) {
+                        append(postDetails.userLikingPost)
+                    }
+                    withStyle(style = InstagramTypography.bodyLarge.toSpanStyle()) {
+                        append(" and ")
+                    }
+                    withStyle(
+                        style = InstagramTypography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+                            .toSpanStyle()
+                    ) {
+                        append("${postDetails.likeCount - 1} others")
+                    }
+                },
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
+        //TODO -> bu hisseni nece edim: username [4.dp space] description1, description2... [more]
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = InstagramTypography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+                        .toSpanStyle()
+                ) {
+                    append(postDetails.usernameAuthor)
+                }
+                withStyle(style = InstagramTypography.bodyLarge.toSpanStyle()) {
+                    append(postDetails.postDescription)
+                }
+            },
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            text = "View all ${postDetails.commentCount} comments",
+            style = InstagramTypography.bodyLarge.copy(color = TextSubtle)
+        )
+
+        Row(
+            modifier = Modifier
+                .padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = InstagramTypography.headlineMedium.copy(fontWeight = FontWeight.SemiBold)
+                            .toSpanStyle()
+                    ) {
+                        append(postDetails.usernameCommenter)
+                    }
+                    //TODO -> space between username and comment
+                    withStyle(style = InstagramTypography.bodyLarge.toSpanStyle()) {
+                        append(postDetails.commentCommenter)
+                    }
+                    //TODO -> space before hashtags
+                    withStyle(
+                        style = InstagramTypography.bodyLarge.copy(color = TextTag).toSpanStyle()
+                    ) {
+                        postDetails.hashtagsCommenter?.forEach {
+                            append("#$it")
+                        }
+                    }
+                },
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Icon(
+                imageVector = ImageVector.vectorResource(if (postDetails.isCommentLiked) drawableR.ic_like_filled_16 else drawableR.ic_like_outlined_16),
+                contentDescription = "Like comment",
+                tint = if (postDetails.isCommentLiked) IconEmphasized else IconDefault
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .border(
+                        width = 0.5.dp,
+                        color = BorderSubtler,
+                        shape = CircleShape
+                    ),
+                painter = painterResource(drawableR.ic_launcher_background),
+                contentDescription = "Your profile picture",
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Add a comment...",
+                style = InstagramTypography.bodyLarge.copy(color = TextSubtle)
+            )
+        }
+
+        Text(
+            text = postDetails.postDate,
+            style = InstagramTypography.bodySmall.copy(color = TextSubtle)
+        )
+    }
+}
+
+
+data class PostDetailsDto(
+    val postCount: Int,
+    val likeCount: Int,
+    val commentCount: Int,
+    val shareCount: Int,
+    val isPostLiked: Boolean,
+    val isPostSaved: Boolean,
+    val userLikingPost: String,
+    val usernameAuthor: String,
+    val postDescription: String,
+    val usernameCommenter: String,
+    val commentCommenter: String,
+    val hashtagsCommenter: List<String>?,
+    val isCommentLiked: Boolean,
+    val postDate: String
 )
 
 @Preview(showSystemUi = true)

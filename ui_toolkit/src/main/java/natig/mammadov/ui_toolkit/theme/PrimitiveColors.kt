@@ -24,6 +24,7 @@ internal val Gray70 = Color(0xFF5E646D)
 internal val Gray60 = Color(0xFF6F7680)
 internal val Gray40 = Color(0xFFA2AAB4)
 internal val Gray30 = Color(0xFFDBDFE4)
+internal val Gray25 = Color(0xFFDBDBDB)
 internal val Gray20 = Color(0xFFF3F4F6)
 internal val Gray10 = Color(0xFFF7F9F9)
 

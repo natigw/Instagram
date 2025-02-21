@@ -39,6 +39,10 @@ android {
 
 dependencies {
 
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     implementation(project(":ui_toolkit"))
 
     implementation(libs.androidx.core.ktx)

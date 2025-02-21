@@ -45,6 +45,7 @@ val BorderSubtler = Gray30
 val BorderCloseFriends = Green100
 val BorderExclusive = Purple80
 val BorderTranslucent = White35
+val BorderStrokeDefault = Gray25
 
 // Stickers
 val StickerOrange = Orange100

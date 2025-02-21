@@ -82,6 +82,38 @@ fun Home() {
     ) {
         TopBar()
         Stories()
+        AdPostItem(
+            AdPostItemDto(
+                ratioWH = PostRatio.LANDSCAPE.ratio,
+                profileImageUrl = "https://picsum.photos/200/300",
+                username = "username",
+                postImageUrl = "https://picsum.photos/200/300",
+                hasStory = Random.nextBoolean(),
+                seenStory = Random.nextBoolean()
+            ),
+            PostDetailsDto(
+                postCount = Random.nextInt(8),
+                likeCount = Random.nextInt(999999),
+                commentCount = Random.nextInt(9999),
+                shareCount = Random.nextInt(100),
+                isPostLiked = Random.nextBoolean(),
+                isPostSaved = Random.nextBoolean(),
+                userProfilePicturesLikingPost = listOf(
+                    "https://picsum.photos/200/300",
+                    "https://picsum.photos/200/300",
+                    "https://picsum.photos/200/300"
+                ),
+                userLikingPost = "user_your_friend",
+                profilePictureAuthor = "https://picsum.photos/200/300",
+                usernameAuthor = "author_ww_long_nameeeee_salam",
+                postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
+                usernameCommenter = "commenter_6889",
+                commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
+                hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                isCommentLiked = Random.nextBoolean(),
+                postDate = "11 January"
+            )
+        )
         Posts()
     }
 }
@@ -240,6 +272,38 @@ fun Posts() {
                     seenStory = Random.nextBoolean(),
                     isExclusive = Random.nextBoolean(),
                     isSuggestedAccount = Random.nextBoolean()
+                ),
+                PostDetailsDto(
+                    postCount = Random.nextInt(8),
+                    likeCount = Random.nextInt(999999),
+                    commentCount = Random.nextInt(9999),
+                    shareCount = Random.nextInt(100),
+                    isPostLiked = Random.nextBoolean(),
+                    isPostSaved = Random.nextBoolean(),
+                    userProfilePicturesLikingPost = listOf(
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300"
+                    ),
+                    userLikingPost = "user_your_friend",
+                    profilePictureAuthor = "https://picsum.photos/200/300",
+                    usernameAuthor = "author_ww_long_nameeeee_salam",
+                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
+                    usernameCommenter = "commenter_6889",
+                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
+                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    isCommentLiked = Random.nextBoolean(),
+                    postDate = "11 January"
+                )
+            )
+            AdPostItem(
+                AdPostItemDto(
+                    ratioWH = PostRatio.entries[Random.nextInt(PostRatio.entries.size)].ratio,
+                    profileImageUrl = "https://picsum.photos/200/300",
+                    username = "username",
+                    postImageUrl = "https://picsum.photos/200/300",
+                    hasStory = Random.nextBoolean(),
+                    seenStory = Random.nextBoolean()
                 ),
                 PostDetailsDto(
                     postCount = Random.nextInt(8),
@@ -561,7 +625,7 @@ enum class StoryType {
 enum class PostRatio(val ratio: Float) {
     PORTRAIT(0.8f),   // 4:5
     SQUARE(1f),     // 1:1
-    LANDSCAPE(1.19f); // 1.19:1
+    LANDSCAPE(1.91f); // 1.91:1
 }
 
 
@@ -1094,6 +1158,208 @@ data class PostItemDto(
     val seenStory: Boolean,
     val isExclusive: Boolean,
     val isSuggestedAccount: Boolean
+)
+
+
+@Composable
+fun AdPostItem(
+    adPostItem: AdPostItemDto,
+    postDetails: PostDetailsDto
+) {
+    Column {
+        HorizontalDivider(thickness = 1.dp, color = BorderSubtler)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 6.dp, end = 8.dp, top = 7.dp, bottom = 7.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .size(34.dp)
+                    .border(
+                        width = if (adPostItem.seenStory) 1.dp else 1.5.dp,
+                        brush = if (adPostItem.seenStory) SolidColor(BorderStrokeDefault) else GradientStory,
+                        shape = CircleShape
+                    )
+                    .padding(3.dp)
+                    .border(width = 0.5.dp, color = BorderSubtler, shape = CircleShape)
+                    .clip(CircleShape)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+
+                        }
+                    ),
+                model = adPostItem.profileImageUrl,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
+                contentDescription = "User profile picture",
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = adPostItem.username,
+                        style = InstagramTypography.headlineMedium.copy(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
+                    Icon(
+                        imageVector = ImageVector.vectorResource(drawableR.ic_verified_badge_small_16),
+                        contentDescription = "verified account",
+                        tint = IconVerified
+                    )
+                }
+
+                Text(
+                    text = "Sponsored",
+                    style = InstagramTypography.bodySmall
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(color = BackgroundSubtlerLight)
+            ) {
+                Row(
+                    modifier = Modifier.padding(
+                        start = 12.dp,
+                        end = 8.dp,
+                        top = 6.dp,
+                        bottom = 6.dp
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Follow",
+                        style = InstagramTypography.bodyLarge.copy(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Icon(
+                        modifier = Modifier.size(12.dp),
+                        imageVector = ImageVector.vectorResource(drawableR.ic_arrow_down_16),
+                        contentDescription = "Exclusive reel",
+                        tint = IconDefault
+                    )
+                }
+            }
+
+            Icon(
+                modifier = Modifier
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+
+                        }
+                    ),
+                imageVector = ImageVector.vectorResource(drawableR.ic_options),
+                contentDescription = "Post options",
+                tint = IconDefault
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .aspectRatio(adPostItem.ratioWH)
+                    .fillMaxWidth(),
+                model = adPostItem.postImageUrl,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
+                contentDescription = "Reel post image",
+                contentScale = ContentScale.Crop
+            )
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 12.dp, end = 12.dp)
+                    .clip(RoundedCornerShape(100.dp))
+                    .background(color = BackgroundTranslucentInvertedSubtle)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 6.dp, vertical = 4.dp),
+                    text = "1/5",
+                    style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+                )
+            }
+
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(12.dp)
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(color = BackgroundTranslucentInvertedSubtle)
+                    .padding(4.dp)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+
+                        }
+                    ),
+                imageVector = ImageVector.vectorResource(drawableR.ic_tagged_16),
+                contentDescription = "Tagged users to this post",
+                tint = IconDefaultInverted
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .background(BackgroundInteractive)
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = "Call to action",
+                style = InstagramTypography.bodyLarge.copy(fontWeight = FontWeight.SemiBold, color = TextDefaultInverted)
+            )
+            Icon(
+                modifier = Modifier
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+
+                        }
+                    ),
+                imageVector = ImageVector.vectorResource(drawableR.ic_arrow_right),
+                contentDescription = "Proceed call to action",
+                tint = IconDefaultInverted
+            )
+        }
+
+        PostDetails(postDetails)
+    }
+}
+
+data class AdPostItemDto(
+    val ratioWH: Float,  // 0.8f for 4:5 ratio
+    val profileImageUrl: String,
+    val username: String,
+    val postImageUrl: String,
+    val hasStory: Boolean,
+    val seenStory: Boolean
 )
 
 

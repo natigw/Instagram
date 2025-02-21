@@ -1,7 +1,6 @@
 package natig.mammadov.home
 
 import android.util.Log
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,12 +22,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -65,6 +65,7 @@ import natig.mammadov.ui_toolkit.theme.GradientStory
 import natig.mammadov.ui_toolkit.theme.IconDefault
 import natig.mammadov.ui_toolkit.theme.IconDefaultInverted
 import natig.mammadov.ui_toolkit.theme.IconEmphasized
+import natig.mammadov.ui_toolkit.theme.IconVerified
 import natig.mammadov.ui_toolkit.theme.InstagramTypography
 import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSubtle
@@ -74,40 +75,10 @@ import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
 @Composable
 fun Home() {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-    ) {
+    Column {
         TopBar()
         Stories()
-        PostItemReel(
-            ReelItemDto(
-                profileImageUrl = "https://picsum.photos/200/300",
-                username = "username",
-                songTitle = "Song title",
-                artistName = "Artist",
-                postImageUrl = "https://picsum.photos/200/300",
-                hasStory = Random.nextBoolean(),
-                seenStory = Random.nextBoolean(),
-                isExclusive = Random.nextBoolean()
-            ),
-            PostDetailsDto(
-                postCount = Random.nextInt(8),
-                likeCount = Random.nextInt(999999),
-                commentCount = Random.nextInt(9999),
-                shareCount = Random.nextInt(100),
-                isPostLiked = Random.nextBoolean(),
-                isPostSaved = Random.nextBoolean(),
-                userLikingPost = "user_your_friend",
-                usernameAuthor = "author_ww_long_nameeeee_salam",
-                postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
-                usernameCommenter = "commenter_6889",
-                commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
-                hashtagsCommenter = listOf("NatureBeauty", "hash"),
-                isCommentLiked = Random.nextBoolean(),
-                postDate = "11 January"
-            )
-        )
+        Posts()
     }
 }
 
@@ -146,6 +117,7 @@ fun TopBar() {
                     .background(color = IconEmphasized, shape = CircleShape)
                     .border(width = 1.5.dp, color = BorderDefaultInverted, shape = CircleShape)
             )
+            //TODO -> message bubble qalib duzeltmek custom shape?
         }
         Spacer(modifier = Modifier.width(16.dp))
         Box(
@@ -193,7 +165,7 @@ fun Stories() {
                 StoryItemDto(
                     isUser = true,
                     username = "natig",
-                    profilePicture = drawableR.ic_share,
+                    profilePicture = "https://picsum.photos/200/300",
                     storyType = StoryType.REGULAR,
                     hasAlreadySeen = true
                 )
@@ -208,6 +180,118 @@ fun Stories() {
                     username = "user$index",
                     storyType = StoryType.entries[Random.nextInt(StoryType.entries.size)],
                     hasAlreadySeen = Random.nextBoolean()
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun Posts() {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(20) {
+            PostItem(
+                PostItemDto(
+                    ratioWH = PostRatio.entries[Random.nextInt(PostRatio.entries.size)].ratio,
+                    profileImageUrl = "https://picsum.photos/200/300",
+                    username = "username",
+                    postImageUrl = "https://picsum.photos/200/300",
+                    hasStory = Random.nextBoolean(),
+                    seenStory = Random.nextBoolean(),
+                    isExclusive = Random.nextBoolean(),
+                    country = "Baku, Azerbaijan"
+                ),
+                PostDetailsDto(
+                    postCount = Random.nextInt(8),
+                    likeCount = Random.nextInt(999999),
+                    commentCount = Random.nextInt(9999),
+                    shareCount = Random.nextInt(100),
+                    isPostLiked = Random.nextBoolean(),
+                    isPostSaved = Random.nextBoolean(),
+                    userProfilePicturesLikingPost = listOf(
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300"
+                    ),
+                    userLikingPost = "user_your_friend",
+                    profilePictureAuthor = "https://picsum.photos/200/300",
+                    usernameAuthor = "author_ww_long_nameeeee_salam",
+                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
+                    usernameCommenter = "commenter_6889",
+                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
+                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    isCommentLiked = Random.nextBoolean(),
+                    postDate = "11 January"
+                )
+            )
+            ReelPostItem(
+                ReelItemDto(
+                    profileImageUrl = "https://picsum.photos/200/300",
+                    username = "username",
+                    songTitle = "Song title",
+                    artistName = "Artist",
+                    postImageUrl = "https://picsum.photos/200/300",
+                    hasStory = Random.nextBoolean(),
+                    seenStory = Random.nextBoolean(),
+                    isExclusive = Random.nextBoolean()
+                ),
+                PostDetailsDto(
+                    postCount = Random.nextInt(8),
+                    likeCount = Random.nextInt(999999),
+                    commentCount = Random.nextInt(9999),
+                    shareCount = Random.nextInt(100),
+                    isPostLiked = Random.nextBoolean(),
+                    isPostSaved = Random.nextBoolean(),
+                    userProfilePicturesLikingPost = listOf(
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300"
+                    ),
+                    userLikingPost = "user_your_friend",
+                    profilePictureAuthor = "https://picsum.photos/200/300",
+                    usernameAuthor = "author_ww_long_nameeeee_salam",
+                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
+                    usernameCommenter = "commenter_6889",
+                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
+                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    isCommentLiked = Random.nextBoolean(),
+                    postDate = "11 January"
+                )
+            )
+            PostItem(
+                PostItemDto(
+                    ratioWH = PostRatio.entries[Random.nextInt(PostRatio.entries.size)].ratio,
+                    profileImageUrl = "https://picsum.photos/200/300",
+                    username = "username",
+                    postImageUrl = "https://picsum.photos/200/300",
+                    hasStory = Random.nextBoolean(),
+                    seenStory = Random.nextBoolean(),
+                    isExclusive = Random.nextBoolean(),
+                    country = "Baku, Azerbaijan"
+                ),
+                PostDetailsDto(
+                    postCount = Random.nextInt(8),
+                    likeCount = Random.nextInt(999999),
+                    commentCount = Random.nextInt(9999),
+                    shareCount = Random.nextInt(100),
+                    isPostLiked = Random.nextBoolean(),
+                    isPostSaved = Random.nextBoolean(),
+                    userProfilePicturesLikingPost = listOf(
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300",
+                        "https://picsum.photos/200/300"
+                    ),
+                    userLikingPost = "user_your_friend",
+                    profilePictureAuthor = "https://picsum.photos/200/300",
+                    usernameAuthor = "author_ww_long_nameeeee_salam",
+                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
+                    usernameCommenter = "commenter_6889",
+                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
+                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    isCommentLiked = Random.nextBoolean(),
+                    postDate = "11 January"
                 )
             )
         }
@@ -253,7 +337,7 @@ fun StoryItem(
                                 .border(width = 3.dp, color = BorderDefault, shape = CircleShape)
                                 .clip(CircleShape)
                         ) {
-                            Image(
+                            AsyncImage(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(9.dp)
@@ -263,7 +347,9 @@ fun StoryItem(
                                         color = BorderSubtler,
                                         shape = CircleShape
                                     ),
-                                painter = painterResource(drawableR.ic_launcher_background),
+                                model = storyItem.profilePicture,
+                                placeholder = painterResource(drawableR.ic_highlight_slides),
+                                error = painterResource(drawableR.ic_launcher_background),
                                 contentDescription = "Profile Picture",
                                 contentScale = ContentScale.Crop
                             )
@@ -271,18 +357,23 @@ fun StoryItem(
                     }
 
                     StoryType.LIVE_WITH_OTHERS -> {
-                        MultipleLiveStory()
+                        MultipleLiveStory(
+                            StoryItemDto(
+                                storyType = StoryType.LIVE_WITH_OTHERS,
+                                username = "multiUser"
+                            )
+                        )
                     }
 
                     else -> {
-                        Image(
+                        AsyncImage(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(5.dp)
                                 .clip(CircleShape),
-                            painter = painterResource(
-                                storyItem.profilePicture ?: drawableR.ic_launcher_background
-                            ),
+                            model = storyItem.profilePicture,
+                            placeholder = painterResource(drawableR.ic_highlight_slides),
+                            error = painterResource(drawableR.ic_launcher_background),
                             contentDescription = "Profile Picture",
                             contentScale = ContentScale.Crop
                         )
@@ -374,7 +465,9 @@ fun LiveBox(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MultipleLiveStory() {
+fun MultipleLiveStory(
+    storyItem: StoryItemDto
+) {
     Box(
         modifier = Modifier.size(78.dp)
     ) {
@@ -393,13 +486,15 @@ fun MultipleLiveStory() {
                 .background(brush = GradientLive, shape = CircleShape)
                 .clip(CircleShape)
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(width = 1.dp, color = BorderSubtler, shape = CircleShape)
                     .clip(CircleShape),
-                painter = painterResource(drawableR.ic_launcher_background),
+                model = storyItem.profilePicture,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
                 contentDescription = "Profile Picture",
                 contentScale = ContentScale.Crop
             )
@@ -419,13 +514,15 @@ fun MultipleLiveStory() {
                 .background(brush = GradientLive, shape = CircleShape)
                 .clip(CircleShape)
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(width = 1.dp, color = BorderSubtler, shape = CircleShape)
                     .clip(CircleShape),
-                painter = painterResource(drawableR.ic_launcher_background),
+                model = storyItem.profilePicture,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
                 contentDescription = "Profile Picture",
                 contentScale = ContentScale.Crop
             )
@@ -441,7 +538,7 @@ fun MultipleLiveStory() {
 
 data class StoryItemDto(
     val username: String,
-    @DrawableRes val profilePicture: Int? = null,
+    val profilePicture: String? = null,
     val storyType: StoryType,
     val isUser: Boolean = false,
     val hasAlreadySeen: Boolean = false
@@ -455,8 +552,16 @@ enum class StoryType {
 }
 
 
+
+enum class PostRatio(val ratio: Float) {
+    PORTRAIT(0.8f),   // 4:5
+    SQUARE(1f),     // 1:1
+    LANDSCAPE(1.19f); // 1.19:1
+}
+
+
 @Composable
-fun PostItemReel(
+fun ReelPostItem(
     reelItem: ReelItemDto,
     postDetails: PostDetailsDto
 ) {
@@ -473,6 +578,8 @@ fun PostItemReel(
                         Log.e("Click Zone", "SAFE_ZONE -> CLICK")
                     },
                 model = reelItem.postImageUrl,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
                 contentDescription = "Reel post image",
                 contentScale = ContentScale.Crop
             )
@@ -516,7 +623,7 @@ fun PostItemReel(
                     .padding(start = 6.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .size(34.dp)
                         .border(
@@ -534,7 +641,9 @@ fun PostItemReel(
 
                             }
                         ),
-                    painter = painterResource(drawableR.ic_launcher_background),
+                    model = reelItem.profileImageUrl,
+                    placeholder = painterResource(drawableR.ic_highlight_slides),
+                    error = painterResource(drawableR.ic_launcher_background),
                     contentDescription = "User profile picture",
                     contentScale = ContentScale.Crop
                 )
@@ -588,19 +697,21 @@ fun PostItemReel(
                     }
                 }
 
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(color = BackgroundExclusive)
-                ) {
-                    Icon(
+                if (reelItem.isExclusive) {
+                    Box(
                         modifier = Modifier
-                            .padding(vertical = 2.dp, horizontal = 4.dp),
-                        imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
-                        contentDescription = "Exclusive reel",
-                        tint = IconDefaultInverted
-                    )
+                            .padding(horizontal = 16.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(color = BackgroundExclusive)
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .padding(vertical = 2.dp, horizontal = 4.dp),
+                            imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
+                            contentDescription = "Exclusive reel",
+                            tint = IconDefaultInverted
+                        )
+                    }
                 }
 
                 Icon(
@@ -617,6 +728,23 @@ fun PostItemReel(
                     tint = IconDefaultInverted
                 )
             }
+
+            //TODO -> bunu deqiqlesdir gorek burda cox reel olanda bu lazim olurmu
+//            Box(
+//                modifier = Modifier
+//                    .align(Alignment.TopEnd)
+//                    .padding(top = 52.dp, end = 12.dp)
+//                    .clip(RoundedCornerShape(100.dp))
+//                    .background(color = BackgroundTranslucentInvertedSubtle)
+//            ) {
+//                Text(
+//                    modifier = Modifier
+//                        .padding(horizontal = 6.dp, vertical = 4.dp),
+//                    text = "1/5",
+//                    style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+//                )
+//            }
+
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -680,6 +808,177 @@ data class ReelItemDto(
     val isExclusive: Boolean,
 )
 
+@Composable
+fun PostItem(
+    postItem: PostItemDto,
+    postDetails: PostDetailsDto
+) {
+    Column {
+        HorizontalDivider(thickness = 1.dp, color = BorderSubtler)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 6.dp, end = 8.dp, top = 7.dp, bottom = 7.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .size(34.dp)
+                    .border(
+                        width = if (postItem.seenStory) 1.dp else 1.5.dp,
+                        brush = if (postItem.seenStory) SolidColor(BorderStrokeDefault) else GradientStory,
+                        shape = CircleShape
+                    )
+                    .padding(3.dp)
+                    .border(width = 0.5.dp, color = BorderSubtler, shape = CircleShape)
+                    .clip(CircleShape)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+
+                        }
+                    ),
+                model = postItem.profileImageUrl,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
+                contentDescription = "User profile picture",
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = postItem.username,
+                        style = InstagramTypography.headlineMedium.copy(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
+                    Icon(
+                        imageVector = ImageVector.vectorResource(drawableR.ic_verified_badge_small_16),
+                        contentDescription = "verified account",
+                        tint = IconVerified
+                    )
+                }
+
+                postItem.country?.let {
+                    Text(
+                        text = it,
+                        style = InstagramTypography.bodySmall
+                    )
+                }
+            }
+
+            if (postItem.isExclusive) {
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(color = BackgroundExclusive)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(start = 4.dp, end = 6.dp, top = 2.dp, bottom = 2.dp)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
+                            contentDescription = "Exclusive reel",
+                            tint = IconDefaultInverted
+                        )
+                        Text(
+                            text = "Exclusive",
+                            style = InstagramTypography.bodySmall.copy(fontWeight = FontWeight.SemiBold, color = TextDefaultInverted)
+                        )
+                    }
+                }
+            }
+
+            Icon(
+                modifier = Modifier
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+
+                        }
+                    ),
+                imageVector = ImageVector.vectorResource(drawableR.ic_options),
+                contentDescription = "Post options",
+                tint = IconDefault
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .aspectRatio(postItem.ratioWH)
+                    .fillMaxWidth(),
+                model = postItem.postImageUrl,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
+                contentDescription = "Reel post image",
+                contentScale = ContentScale.Crop
+            )
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 12.dp, end = 12.dp)
+                    .clip(RoundedCornerShape(100.dp))
+                    .background(color = BackgroundTranslucentInvertedSubtle)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 6.dp, vertical = 4.dp),
+                    text = "1/5",
+                    style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+                )
+            }
+
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(12.dp)
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(color = BackgroundTranslucentInvertedSubtle)
+                    .padding(4.dp)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+
+                        }
+                    ),
+                imageVector = ImageVector.vectorResource(drawableR.ic_tagged_16),
+                contentDescription = "Tagged users to this post",
+                tint = IconDefaultInverted
+            )
+        }
+
+        PostDetails(postDetails)
+    }
+}
+
+data class PostItemDto(
+    val ratioWH: Float,  // 0.8f for 4:5 ratio
+    val profileImageUrl: String,
+    val username: String,
+    val country: String?,
+    val postImageUrl: String,
+    val hasStory: Boolean,
+    val seenStory: Boolean,
+    val isExclusive: Boolean
+)
+
 
 @Composable
 fun PostDetails(
@@ -687,7 +986,7 @@ fun PostDetails(
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 16.dp)
+            .padding(horizontal = 12.dp)
     ) {
 
         //TODO- > carousel for multiple posts
@@ -762,7 +1061,7 @@ fun PostDetails(
                     .offset(x = (-2).dp)
                     .width(42.dp)
             ) {
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .size(20.dp)
@@ -778,11 +1077,13 @@ fun PostDetails(
                             color = BorderSubtler,
                             shape = CircleShape
                         ),
-                    painter = painterResource(drawableR.ic_launcher_background),
+                    model = postDetails.userProfilePicturesLikingPost[0],
+                    placeholder = painterResource(drawableR.ic_highlight_slides),
+                    error = painterResource(drawableR.ic_launcher_background),
                     contentDescription = "Users liking this post",
                     contentScale = ContentScale.Crop
                 )
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .size(20.dp)
@@ -798,11 +1099,13 @@ fun PostDetails(
                             color = BorderSubtler,
                             shape = CircleShape
                         ),
-                    painter = painterResource(drawableR.ic_launcher_background),
+                    model = postDetails.userProfilePicturesLikingPost[1],
+                    placeholder = painterResource(drawableR.ic_highlight_slides),
+                    error = painterResource(drawableR.ic_launcher_background),
                     contentDescription = "Users liking this post",
                     contentScale = ContentScale.Crop
                 )
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .size(20.dp)
@@ -818,7 +1121,9 @@ fun PostDetails(
                             color = BorderSubtler,
                             shape = CircleShape
                         ),
-                    painter = painterResource(drawableR.ic_launcher_background),
+                    model = postDetails.userProfilePicturesLikingPost[2],
+                    placeholder = painterResource(drawableR.ic_highlight_slides),
+                    error = painterResource(drawableR.ic_launcher_background),
                     contentDescription = "Users liking this post",
                     contentScale = ContentScale.Crop
                 )
@@ -920,7 +1225,7 @@ fun PostDetails(
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .size(24.dp)
                     .clip(CircleShape)
@@ -929,7 +1234,9 @@ fun PostDetails(
                         color = BorderSubtler,
                         shape = CircleShape
                     ),
-                painter = painterResource(drawableR.ic_launcher_background),
+                model = postDetails.profilePictureAuthor,
+                placeholder = painterResource(drawableR.ic_highlight_slides),
+                error = painterResource(drawableR.ic_launcher_background),
                 contentDescription = "Your profile picture",
                 contentScale = ContentScale.Crop
             )
@@ -955,7 +1262,9 @@ data class PostDetailsDto(
     val shareCount: Int,
     val isPostLiked: Boolean,
     val isPostSaved: Boolean,
+    val userProfilePicturesLikingPost: List<String>,
     val userLikingPost: String,
+    val profilePictureAuthor: String,
     val usernameAuthor: String,
     val postDescription: String,
     val usernameCommenter: String,

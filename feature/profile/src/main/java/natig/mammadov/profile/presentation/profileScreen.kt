@@ -1,5 +1,6 @@
 package natig.mammadov.profile.presentation
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,6 +32,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -49,6 +52,7 @@ import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
 import natig.mammadov.ui_toolkit.theme.BackgroundNotification
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
+import natig.mammadov.ui_toolkit.theme.BorderDefault
 import natig.mammadov.ui_toolkit.theme.BorderDefaultInverted
 import natig.mammadov.ui_toolkit.theme.BorderHighlight
 import natig.mammadov.ui_toolkit.theme.BorderSubtler
@@ -57,6 +61,7 @@ import natig.mammadov.ui_toolkit.theme.IconDefault
 import natig.mammadov.ui_toolkit.theme.IconDefaultInverted
 import natig.mammadov.ui_toolkit.theme.IconEmphasized
 import natig.mammadov.ui_toolkit.theme.IconLink
+import natig.mammadov.ui_toolkit.theme.IconSubtle
 import natig.mammadov.ui_toolkit.theme.InstagramTypography
 import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSubtle
@@ -116,6 +121,8 @@ fun UserProfileScreen() {
                 )
             }
         }
+
+        ProfileTabs(hasExclusivePosts = true)
     }
 }
 
@@ -250,6 +257,14 @@ fun UserInfo(
             AsyncImage(
                 modifier = Modifier
                     .size(86.dp)
+                    .clip(CircleShape)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(),
+                        onClick = {
+
+                        }
+                    )
                     .border(
                         width = if (profileInfoItem.hasAlreadySeen) 1.dp else 3.dp,
                         brush = if (profileInfoItem.hasAlreadySeen) SolidColor(BorderSubtler)
@@ -309,6 +324,7 @@ fun UserInfo(
             ,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
+            //TODO -> bu hisse app-da nece clickable ona bax
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -380,7 +396,13 @@ fun UserBio(
 
         Row(
             modifier = Modifier
-                .background(color = BackgroundSubtlerLight, shape = CircleShape)
+                .clip(CircleShape)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(bounded = true),
+                    onClick = { }
+                )
+                .background(color = BackgroundSubtlerLight)
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -424,6 +446,7 @@ fun UserBio(
             }
         )
 
+        //TODO -> bu hisse app-da nece clickable ona bax
         Row(
             modifier = Modifier
                 .padding(vertical = 6.dp),
@@ -460,7 +483,7 @@ fun UserDashboard(
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = rememberRipple(bounded = true),
-                    onClick = {  }
+                    onClick = { }
                 )
                 .background(color = BackgroundSubtlerLight)
                 .padding(12.dp)
@@ -478,9 +501,15 @@ fun UserDashboard(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row {
-            ProfileOperateButton(modifier = Modifier.weight(1f), title = "Edit profile", onClick = { })
+            ProfileOperateButton(
+                modifier = Modifier.weight(1f),
+                title = "Edit profile",
+                onClick = { })
             Spacer(modifier = Modifier.width(4.dp))
-            ProfileOperateButton(modifier = Modifier.weight(1f), title = "Share profile", onClick = { })
+            ProfileOperateButton(
+                modifier = Modifier.weight(1f),
+                title = "Share profile",
+                onClick = { })
             Spacer(modifier = Modifier.width(4.dp))
             ProfileOperateButton(modifier = Modifier.weight(1f), title = "Email", onClick = { })
         }
@@ -570,6 +599,99 @@ fun HighlightItem(
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+
+@Composable
+fun ProfileTabs(
+    hasExclusivePosts: Boolean
+) {
+    Row {
+        ProfileTabItem(
+            modifier = Modifier.weight(1f),
+            iconSelected = drawableR.ic_grid_filled,
+            iconNotSelected = drawableR.ic_grid_oultined,
+            description = "Posts",
+            isTabSelected = true
+        )
+        if (hasExclusivePosts)
+            ProfileTabItem(
+                modifier = Modifier.weight(1f),
+                iconSelected = drawableR.ic_exclusive_filled,
+                iconNotSelected = drawableR.ic_exclusive,
+                description = "Exclusives"
+            )
+        ProfileTabItem(
+            modifier = Modifier.weight(1f),
+            iconSelected = drawableR.ic_reels_filled,
+            iconNotSelected = drawableR.ic_reels_outlined,
+            description = "Reels"
+        )
+        ProfileTabItem(
+            modifier = Modifier.weight(1f),
+            iconSelected = drawableR.ic_filters,
+            iconNotSelected = drawableR.ic_filters,
+            description = "Filters"
+        )
+        ProfileTabItem(
+            modifier = Modifier.weight(1f),
+            iconSelected = drawableR.ic_tag,
+            iconNotSelected = drawableR.ic_tag,
+            description = "Tagged posts"
+        )
+    }
+}
+
+@Composable
+fun ProfileTabItem(
+    modifier: Modifier = Modifier,
+    @DrawableRes iconSelected: Int,
+    @DrawableRes iconNotSelected: Int,
+    isTabSelected: Boolean = false,
+    description: String
+) {
+    //TODO -> burda dehset kod tekrari var best practice nedir
+    if (isTabSelected) {
+        Icon(
+            modifier = modifier
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(),
+                    onClick = {
+
+                    }
+                )
+                .drawBehind {
+                    val strokeWidth = 1.dp.toPx()
+                    val y = size.height - strokeWidth / 2  //Position at the bottom
+                    drawLine(
+                        color = BorderDefault,
+                        start = Offset(0f, y),
+                        end = Offset(size.width, y),
+                        strokeWidth = strokeWidth
+                    )
+                }
+                .padding(top = 8.dp, bottom = 7.dp),
+            imageVector = ImageVector.vectorResource(iconSelected),
+            contentDescription = description,
+            tint = IconDefault
+        )
+    } else {
+        Icon(
+            modifier = modifier
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(),
+                    onClick = {
+
+                    }
+                )
+                .padding(top = 8.dp, bottom = 7.dp),
+            imageVector = ImageVector.vectorResource(iconNotSelected),
+            contentDescription = description,
+            tint = IconSubtle
         )
     }
 }

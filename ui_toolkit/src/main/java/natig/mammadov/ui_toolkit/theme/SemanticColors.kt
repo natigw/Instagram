@@ -41,8 +41,10 @@ val BackgroundTranslucentInvertedSubtle = Black40
 // Border
 val BorderDefault = Black100
 val BorderDefaultInverted = White100
+val BorderSubtleDark = Gray100
 val BorderSubtle = Gray60
 val BorderSubtler = Gray30
+val BorderHighlight = Gray30
 val BorderCloseFriends = Green100
 val BorderExclusive = Purple80
 val BorderTranslucent = White35

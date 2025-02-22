@@ -53,12 +53,14 @@ import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundExclusive
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
 import natig.mammadov.ui_toolkit.theme.BackgroundLive
+import natig.mammadov.ui_toolkit.theme.BackgroundNotification
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BackgroundTranslucentInvertedSubtle
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
 import natig.mammadov.ui_toolkit.theme.BorderDefault
 import natig.mammadov.ui_toolkit.theme.BorderDefaultInverted
 import natig.mammadov.ui_toolkit.theme.BorderStrokeDefault
+import natig.mammadov.ui_toolkit.theme.BorderSubtleDark
 import natig.mammadov.ui_toolkit.theme.BorderSubtler
 import natig.mammadov.ui_toolkit.theme.GradientLive
 import natig.mammadov.ui_toolkit.theme.GradientLiveSubtle
@@ -82,38 +84,6 @@ fun Home() {
     ) {
         TopBar()
         Stories()
-        AdPostItem(
-            AdPostItemDto(
-                ratioWH = PostRatio.LANDSCAPE.ratio,
-                profileImageUrl = "https://picsum.photos/200/300",
-                username = "username",
-                postImageUrl = "https://picsum.photos/200/300",
-                hasStory = Random.nextBoolean(),
-                seenStory = Random.nextBoolean()
-            ),
-            PostDetailsDto(
-                postCount = Random.nextInt(8),
-                likeCount = Random.nextInt(999999),
-                commentCount = Random.nextInt(9999),
-                shareCount = Random.nextInt(100),
-                isPostLiked = Random.nextBoolean(),
-                isPostSaved = Random.nextBoolean(),
-                userProfilePicturesLikingPost = listOf(
-                    "https://picsum.photos/200/300",
-                    "https://picsum.photos/200/300",
-                    "https://picsum.photos/200/300"
-                ),
-                userLikingPost = "user_your_friend",
-                profilePictureAuthor = "https://picsum.photos/200/300",
-                usernameAuthor = "author_ww_long_nameeeee_salam",
-                postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
-                usernameCommenter = "commenter_6889",
-                commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
-                hashtagsCommenter = listOf("NatureBeauty", "hash"),
-                isCommentLiked = Random.nextBoolean(),
-                postDate = "11 January"
-            )
-        )
         Posts()
     }
 }
@@ -150,9 +120,11 @@ fun TopBar() {
                         x = 1.dp,
                         y = (-1).dp
                     )  //TODO-> bu designda offset yoxdu ama qoymayanda eyni olmadi axi??
-                    .background(color = IconEmphasized, shape = CircleShape)
                     .border(width = 1.5.dp, color = BorderDefaultInverted, shape = CircleShape)
+                    .padding(1.dp)
+                    .background(color = IconEmphasized, shape = CircleShape)
             )
+
             //TODO -> message bubble qalib duzeltmek custom shape?
         }
         Spacer(modifier = Modifier.width(16.dp))
@@ -171,7 +143,7 @@ fun TopBar() {
                     .offset(x = 7.dp, y = (-5).dp)
                     .wrapContentWidth()
                     .height(16.dp)
-                    .background(color = IconEmphasized, shape = CircleShape)
+                    .background(color = BackgroundNotification, shape = CircleShape)
                     .padding(horizontal = 6.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -416,7 +388,8 @@ fun StoryItem(
                                         width = 1.dp,
                                         color = BorderSubtler,
                                         shape = CircleShape
-                                    ),
+                                    )
+                                    .padding(0.5.dp),
                                 model = storyItem.profilePicture,
                                 placeholder = painterResource(drawableR.ic_highlight_slides),
                                 error = painterResource(drawableR.ic_launcher_background),
@@ -463,7 +436,6 @@ fun StoryItem(
                 Surface(
                     modifier = Modifier
                         .size(24.dp)
-                        .clip(CircleShape)
                         .align(Alignment.BottomEnd)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
@@ -472,7 +444,9 @@ fun StoryItem(
 
                             }
                         )
-                        .border(width = 3.dp, color = BorderDefaultInverted, shape = CircleShape),
+                        .border(width = 3.dp, color = BorderDefaultInverted, shape = CircleShape)
+                        .padding(3.dp)
+                        .clip(CircleShape),
                     color = BackgroundInteractive
                 ) {
                     Icon(
@@ -551,7 +525,7 @@ fun MultipleLiveStory(
                 .padding(2.dp)
                 .border(width = 1.dp, color = BorderDefault, shape = CircleShape)
                 .background(color = BorderDefault, shape = CircleShape)
-                .background(brush = GradientLiveSubtle)
+                .background(brush = GradientLiveSubtle, shape = CircleShape)
                 .padding(7.dp)
                 .background(brush = GradientLive, shape = CircleShape)
                 .clip(CircleShape)
@@ -561,6 +535,7 @@ fun MultipleLiveStory(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(width = 1.dp, color = BorderSubtler, shape = CircleShape)
+                    .padding(0.5.dp)
                     .clip(CircleShape),
                 model = storyItem.profilePicture,
                 placeholder = painterResource(drawableR.ic_highlight_slides),
@@ -579,7 +554,7 @@ fun MultipleLiveStory(
                 .padding(2.dp)
                 .border(width = 1.dp, color = BorderDefault, shape = CircleShape)
                 .background(color = BorderDefault, shape = CircleShape)
-                .background(brush = GradientLiveSubtle)
+                .background(brush = GradientLiveSubtle, shape = CircleShape)
                 .padding(7.dp)
                 .background(brush = GradientLive, shape = CircleShape)
                 .clip(CircleShape)
@@ -589,6 +564,7 @@ fun MultipleLiveStory(
                     .fillMaxSize()
                     .padding(3.dp)
                     .border(width = 1.dp, color = BorderSubtler, shape = CircleShape)
+                    .padding(0.5.dp)
                     .clip(CircleShape),
                 model = storyItem.profilePicture,
                 placeholder = painterResource(drawableR.ic_highlight_slides),
@@ -833,20 +809,15 @@ fun ReelPostItem(
             }
 
             //TODO -> bunu deqiqlesdir gorek burda cox reel olanda bu lazim olurmu
-//            Box(
+//            Text(
 //                modifier = Modifier
 //                    .align(Alignment.TopEnd)
 //                    .padding(top = 52.dp, end = 12.dp)
-//                    .clip(RoundedCornerShape(100.dp))
-//                    .background(color = BackgroundTranslucentInvertedSubtle)
-//            ) {
-//                Text(
-//                    modifier = Modifier
-//                        .padding(horizontal = 6.dp, vertical = 4.dp),
-//                    text = "1/5",
-//                    style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
-//                )
-//            }
+//                    .background(color = BackgroundTranslucentInvertedSubtle, shape = CircleShape)
+//                    .padding(horizontal = 6.dp, vertical = 4.dp),
+//                text = "1/5",
+//                style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+//            )
 
             Row(
                 modifier = Modifier
@@ -1108,20 +1079,15 @@ fun PostItem(
                 contentScale = ContentScale.Crop
             )
 
-            Box(
+            Text(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 12.dp, end = 12.dp)
-                    .clip(RoundedCornerShape(100.dp))
-                    .background(color = BackgroundTranslucentInvertedSubtle)
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = 6.dp, vertical = 4.dp),
-                    text = "1/5",
-                    style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
-                )
-            }
+                    .background(color = BackgroundTranslucentInvertedSubtle, shape = CircleShape)
+                    .padding(horizontal = 6.dp, vertical = 4.dp),
+                text = "2/5",
+                style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+            )
 
             Icon(
                 modifier = Modifier
@@ -1184,6 +1150,7 @@ fun AdPostItem(
                     )
                     .padding(3.dp)
                     .border(width = 0.5.dp, color = BorderSubtler, shape = CircleShape)
+                    .padding(0.25.dp)
                     .clip(CircleShape)
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -1287,20 +1254,16 @@ fun AdPostItem(
                 contentScale = ContentScale.Crop
             )
 
-            Box(
+
+            Text(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 12.dp, end = 12.dp)
-                    .clip(RoundedCornerShape(100.dp))
-                    .background(color = BackgroundTranslucentInvertedSubtle)
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = 6.dp, vertical = 4.dp),
-                    text = "1/5",
-                    style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
-                )
-            }
+                    .background(color = BackgroundTranslucentInvertedSubtle, shape = CircleShape)
+                    .padding(horizontal = 6.dp, vertical = 4.dp),
+                text = "1/5",
+                style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
+            )
 
             Icon(
                 modifier = Modifier
@@ -1332,7 +1295,10 @@ fun AdPostItem(
             Text(
                 modifier = Modifier.weight(1f),
                 text = "Call to action",
-                style = InstagramTypography.bodyLarge.copy(fontWeight = FontWeight.SemiBold, color = TextDefaultInverted)
+                style = InstagramTypography.bodyLarge.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    color = TextDefaultInverted
+                )
             )
             Icon(
                 modifier = Modifier
@@ -1448,7 +1414,6 @@ fun PostDetails(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .size(20.dp)
-                        .clip(CircleShape)
                         .border(
                             width = 2.dp,
                             color = BorderDefaultInverted,
@@ -1459,7 +1424,9 @@ fun PostDetails(
                             width = 0.5.dp,
                             color = BorderSubtler,
                             shape = CircleShape
-                        ),
+                        )
+                        .padding(0.5.dp)
+                        .clip(CircleShape),
                     model = postDetails.userProfilePicturesLikingPost[0],
                     placeholder = painterResource(drawableR.ic_highlight_slides),
                     error = painterResource(drawableR.ic_launcher_background),
@@ -1470,7 +1437,6 @@ fun PostDetails(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .size(20.dp)
-                        .clip(CircleShape)
                         .border(
                             width = 2.dp,
                             color = BorderDefaultInverted,
@@ -1481,7 +1447,9 @@ fun PostDetails(
                             width = 0.5.dp,
                             color = BorderSubtler,
                             shape = CircleShape
-                        ),
+                        )
+                        .padding(0.5.dp)
+                        .clip(CircleShape),
                     model = postDetails.userProfilePicturesLikingPost[1],
                     placeholder = painterResource(drawableR.ic_highlight_slides),
                     error = painterResource(drawableR.ic_launcher_background),
@@ -1492,7 +1460,6 @@ fun PostDetails(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .size(20.dp)
-                        .clip(CircleShape)
                         .border(
                             width = 2.dp,
                             color = BorderDefaultInverted,
@@ -1503,7 +1470,9 @@ fun PostDetails(
                             width = 0.5.dp,
                             color = BorderSubtler,
                             shape = CircleShape
-                        ),
+                        )
+                        .padding(0.5.dp)
+                        .clip(CircleShape),
                     model = postDetails.userProfilePicturesLikingPost[2],
                     placeholder = painterResource(drawableR.ic_highlight_slides),
                     error = painterResource(drawableR.ic_launcher_background),
@@ -1611,12 +1580,13 @@ fun PostDetails(
             AsyncImage(
                 modifier = Modifier
                     .size(24.dp)
-                    .clip(CircleShape)
                     .border(
                         width = 0.5.dp,
                         color = BorderSubtler,
                         shape = CircleShape
-                    ),
+                    )
+                    .padding(0.25.dp)
+                    .clip(CircleShape),
                 model = postDetails.profilePictureAuthor,
                 placeholder = painterResource(drawableR.ic_highlight_slides),
                 error = painterResource(drawableR.ic_launcher_background),
@@ -1697,6 +1667,34 @@ fun ReelPortraitItem(
         placeholder = painterResource(drawableR.ic_highlight_slides),
         error = painterResource(drawableR.ic_launcher_background),
         contentDescription = "Reel",
+        contentScale = ContentScale.Crop
+    )
+}
+
+
+@Composable
+fun LiveStory(modifier: Modifier = Modifier) {  //TODO -> bu en yaxsi versiyadi esas yerlerde evez et
+    AsyncImage(
+        modifier = Modifier
+            .size(78.dp) //fillMaxSize()
+            .border(width = 3.dp, brush = GradientStory, shape = CircleShape)
+            .padding(5.dp)
+            .border(width = 3.dp, color = BorderSubtleDark, shape = CircleShape)
+            .background(color = BorderDefault, shape = CircleShape)
+            .background(brush = GradientLiveSubtle, shape = CircleShape)
+            .clip(CircleShape)
+            .padding(9.dp)
+            .border(
+                width = 1.dp,
+                color = BorderSubtler,
+                shape = CircleShape
+            )
+            .padding(0.5.dp)
+            .clip(CircleShape),
+        model = "Sad",
+        placeholder = painterResource(drawableR.ic_highlight_slides),
+        error = painterResource(drawableR.ic_launcher_background),
+        contentDescription = "Profile Picture",
         contentScale = ContentScale.Crop
     )
 }

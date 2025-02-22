@@ -259,7 +259,7 @@ fun BigSponsoredPost(
                 modifier = Modifier
                     .background(
                         color = BackgroundTranslucentInverted,
-                        shape = RoundedCornerShape(100.dp)
+                        shape = CircleShape
                     )
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 text = buildAnnotatedString {

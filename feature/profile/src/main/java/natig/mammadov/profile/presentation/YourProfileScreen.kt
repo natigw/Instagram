@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -63,18 +64,19 @@ import natig.mammadov.ui_toolkit.theme.IconEmphasized
 import natig.mammadov.ui_toolkit.theme.IconLink
 import natig.mammadov.ui_toolkit.theme.IconSubtle
 import natig.mammadov.ui_toolkit.theme.InstagramTypography
+import natig.mammadov.ui_toolkit.theme.TextDefault
 import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSubtle
 import natig.mammadov.ui_toolkit.theme.TextTag
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
 @Composable
-fun UserProfileScreen() {
+fun YourProfileScreen() {
     Column(
         modifier = Modifier.background(BackgroundDefault)
     ) {
-        ProfileTopBar(username = "username")
-        UserInfo(
+        YourProfileTopBar(username = "username")
+        YourProfileInfo(
             profileInfoItem = ProfileInfoItemDto(
                 profilePicture = "https://picsum.photos/200/300",
                 storyType = StoryType.REGULAR,
@@ -84,7 +86,7 @@ fun UserProfileScreen() {
                 followingCount = 62
             )
         )
-        UserBio(
+        YourProfileBio(
             bioItem = ProfileBioItemDto(
                 username = "gursky.studio",
                 fullName = "Natig Mammadov",
@@ -96,7 +98,7 @@ fun UserProfileScreen() {
                 links = listOf("gursky.studio", "link2", "link3", "link4")
             )
         )
-        UserDashboard(
+        YourProfileDashboard(
             dashboardItem = ProfileDashboardItemDto(interactionCount = 1622)
         )
         LazyRow(
@@ -104,7 +106,7 @@ fun UserProfileScreen() {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(8) {
-                HighlightItem(
+                YourHighlightItem(
                     highlightItem = ProfileHighlightItemDto(
                         title = "Highlight 2",
                         imageLink = "sad"
@@ -112,7 +114,7 @@ fun UserProfileScreen() {
                 )
             }
             item {
-                HighlightItem(
+                YourHighlightItem(
                     highlightItem = ProfileHighlightItemDto(
                         title = "Highlight 2",
                         imageLink = "sad",
@@ -122,12 +124,12 @@ fun UserProfileScreen() {
             }
         }
 
-        ProfileTabs(hasExclusivePosts = true)
+        YourProfileTabs(hasExclusivePosts = true)
     }
 }
 
 @Composable
-fun ProfileTopBar(
+fun YourProfileTopBar(
     modifier: Modifier = Modifier,
     username: String
 ) {
@@ -243,7 +245,7 @@ fun ProfileTopBar(
 }
 
 @Composable
-fun UserInfo(
+fun YourProfileInfo(
     modifier: Modifier = Modifier,
     profileInfoItem: ProfileInfoItemDto
 ) {
@@ -369,7 +371,7 @@ fun UserInfo(
 
 
 @Composable
-fun UserBio(
+fun YourProfileBio(
     modifier: Modifier = Modifier,
     bioItem: ProfileBioItemDto
 ) {
@@ -443,7 +445,10 @@ fun UserBio(
                         append("$it ")
                     }
                 }
-            }
+            },
+            maxLines = 4,
+            overflow = TextOverflow.Ellipsis
+            //TODO -> ellipsisden sonra more da qoy (comment ile eynidi deyesen)
         )
 
         //TODO -> bu hisse app-da nece clickable ona bax
@@ -466,7 +471,7 @@ fun UserBio(
 }
 
 @Composable
-fun UserDashboard(
+fun YourProfileDashboard(
     modifier: Modifier = Modifier,
     dashboardItem: ProfileDashboardItemDto
 ) {
@@ -517,12 +522,13 @@ fun UserDashboard(
 }
 
 @Composable
-private fun ProfileOperateButton(
+fun ProfileOperateButton(
     modifier: Modifier,
     title: String,
+    isInteractive: Boolean = false,
     onClick: () -> Unit
 ) {
-    Text(
+    Box(
         modifier = modifier
             .clip(RoundedCornerShape(6.dp))
             .clickable(
@@ -530,17 +536,22 @@ private fun ProfileOperateButton(
                 indication = rememberRipple(bounded = true),
                 onClick = onClick
             )
-            .background(color = BackgroundSubtlerLight)
-            .padding(vertical = 9.5.dp),
-        text = title,
-        style = InstagramTypography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
-        textAlign = TextAlign.Center
-    )
+            .background(color = if (isInteractive) BackgroundInteractive else BackgroundSubtlerLight)
+            .padding(vertical = 6.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = title,
+            style = InstagramTypography.bodyLarge.copy(
+                fontWeight = FontWeight.SemiBold,
+                color = if (isInteractive) TextDefaultInverted else TextDefault
+            )
+        )
+    }
 }
 
-
 @Composable
-fun HighlightItem(
+fun YourHighlightItem(
     highlightItem: ProfileHighlightItemDto
 ) {
     Column(
@@ -605,11 +616,11 @@ fun HighlightItem(
 
 
 @Composable
-fun ProfileTabs(
+fun YourProfileTabs(
     hasExclusivePosts: Boolean
 ) {
     Row {
-        ProfileTabItem(
+        YourProfileTabItem(
             modifier = Modifier.weight(1f),
             iconSelected = drawableR.ic_grid_filled,
             iconNotSelected = drawableR.ic_grid_oultined,
@@ -617,25 +628,25 @@ fun ProfileTabs(
             isTabSelected = true
         )
         if (hasExclusivePosts)
-            ProfileTabItem(
+            YourProfileTabItem(
                 modifier = Modifier.weight(1f),
                 iconSelected = drawableR.ic_exclusive_filled,
                 iconNotSelected = drawableR.ic_exclusive,
                 description = "Exclusives"
             )
-        ProfileTabItem(
+        YourProfileTabItem(
             modifier = Modifier.weight(1f),
             iconSelected = drawableR.ic_reels_filled,
             iconNotSelected = drawableR.ic_reels_outlined,
             description = "Reels"
         )
-        ProfileTabItem(
+        YourProfileTabItem(
             modifier = Modifier.weight(1f),
             iconSelected = drawableR.ic_filters,
             iconNotSelected = drawableR.ic_filters,
             description = "Filters"
         )
-        ProfileTabItem(
+        YourProfileTabItem(
             modifier = Modifier.weight(1f),
             iconSelected = drawableR.ic_tag,
             iconNotSelected = drawableR.ic_tag,
@@ -645,7 +656,7 @@ fun ProfileTabs(
 }
 
 @Composable
-fun ProfileTabItem(
+fun YourProfileTabItem(
     modifier: Modifier = Modifier,
     @DrawableRes iconSelected: Int,
     @DrawableRes iconNotSelected: Int,
@@ -743,5 +754,5 @@ enum class Pronoun(val pronounFull: String) {
 @Preview(showSystemUi = true)
 @Composable
 private fun UserProfileScreenPrev() {
-    UserProfileScreen()
+    YourProfileScreen()
 }

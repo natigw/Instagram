@@ -74,7 +74,7 @@ import androidx.compose.ui.unit.sp
 
 
 
-private const val fontSizeUnit = 1.1
+private const val fontSizeUnit = 1.15
 
 val InstagramTypography = Typography(
     titleLarge = TextStyle( //title1

@@ -463,9 +463,9 @@ fun StoryItem(
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = if (storyItem.isUser) "Your story" else if (storyItem.storyType == StoryType.LIVE_WITH_OTHERS) "${storyItem.username} +1" else storyItem.username,
-            style = if (storyItem.isUser || storyItem.hasAlreadySeen) InstagramTypography.bodySmall.copy(
-                color = TextSubtle
-            ) else InstagramTypography.bodySmall,
+            style = if (storyItem.isUser || storyItem.hasAlreadySeen)
+                InstagramTypography.bodySmall.copy(color = TextSubtle)
+            else InstagramTypography.bodySmall,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -1410,74 +1410,17 @@ fun PostDetails(
                     .offset(x = (-2).dp)
                     .width(42.dp)
             ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .size(20.dp)
-                        .border(
-                            width = 2.dp,
-                            color = BorderDefaultInverted,
-                            shape = CircleShape
-                        )
-                        .padding(2.dp)
-                        .border(
-                            width = 0.5.dp,
-                            color = BorderSubtler,
-                            shape = CircleShape
-                        )
-                        .padding(0.5.dp)
-                        .clip(CircleShape),
-                    model = postDetails.userProfilePicturesLikingPost[0],
-                    placeholder = painterResource(drawableR.ic_highlight_slides),
-                    error = painterResource(drawableR.ic_launcher_background),
-                    contentDescription = "Users liking this post",
-                    contentScale = ContentScale.Crop
+                LikedByMutualUser(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    imageLink = postDetails.userProfilePicturesLikingPost[0]
                 )
-                AsyncImage(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(20.dp)
-                        .border(
-                            width = 2.dp,
-                            color = BorderDefaultInverted,
-                            shape = CircleShape
-                        )
-                        .padding(2.dp)
-                        .border(
-                            width = 0.5.dp,
-                            color = BorderSubtler,
-                            shape = CircleShape
-                        )
-                        .padding(0.5.dp)
-                        .clip(CircleShape),
-                    model = postDetails.userProfilePicturesLikingPost[1],
-                    placeholder = painterResource(drawableR.ic_highlight_slides),
-                    error = painterResource(drawableR.ic_launcher_background),
-                    contentDescription = "Users liking this post",
-                    contentScale = ContentScale.Crop
+                LikedByMutualUser(
+                    modifier = Modifier.align(Alignment.Center),
+                    imageLink = postDetails.userProfilePicturesLikingPost[1]
                 )
-                AsyncImage(
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .size(20.dp)
-                        .border(
-                            width = 2.dp,
-                            color = BorderDefaultInverted,
-                            shape = CircleShape
-                        )
-                        .padding(2.dp)
-                        .border(
-                            width = 0.5.dp,
-                            color = BorderSubtler,
-                            shape = CircleShape
-                        )
-                        .padding(0.5.dp)
-                        .clip(CircleShape),
-                    model = postDetails.userProfilePicturesLikingPost[2],
-                    placeholder = painterResource(drawableR.ic_highlight_slides),
-                    error = painterResource(drawableR.ic_launcher_background),
-                    contentDescription = "Users liking this post",
-                    contentScale = ContentScale.Crop
+                LikedByMutualUser(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    imageLink = postDetails.userProfilePicturesLikingPost[2]
                 )
             }
 
@@ -1607,6 +1550,35 @@ fun PostDetails(
 
         Spacer(modifier = Modifier.height(16.dp))
     }
+}
+
+@Composable
+fun LikedByMutualUser(
+    modifier: Modifier,
+    imageLink: String
+) {
+    AsyncImage(
+        modifier = modifier
+            .size(20.dp)
+            .border(
+                width = 2.dp,
+                color = BorderDefaultInverted,
+                shape = CircleShape
+            )
+            .padding(2.dp)
+            .border(
+                width = 0.5.dp,
+                color = BorderSubtler,
+                shape = CircleShape
+            )
+            .padding(0.5.dp)
+            .clip(CircleShape),
+        model = imageLink,
+        placeholder = painterResource(drawableR.ic_highlight_slides),
+        error = painterResource(drawableR.ic_launcher_background),
+        contentDescription = "Users liking this post",
+        contentScale = ContentScale.Crop
+    )
 }
 
 

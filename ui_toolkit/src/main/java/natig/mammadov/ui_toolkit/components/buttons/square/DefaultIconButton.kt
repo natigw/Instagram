@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import natig.mammadov.ui_toolkit.theme.IconDefaultInverted
 import natig.mammadov.ui_toolkit.theme.IconSemiSubtle
 import natig.mammadov.ui_toolkit.theme.SquareButtonShape
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
+import natig.mammadov.ui_toolkit.R.string as stringR
 
 @Composable
 fun DefaultIconButton(
@@ -86,7 +88,7 @@ fun DefaultIconButton(
                 Icon(
                     modifier = Modifier.size(16.dp),
                     imageVector = ImageVector.vectorResource(iconRes),
-                    contentDescription = "Icon button action",
+                    contentDescription = stringResource(stringR.action_icon_button),
                     tint = contentColor
                 )
             }
@@ -104,7 +106,7 @@ fun DefaultIconButton(
                 Icon(
                     modifier = Modifier.size(16.dp),
                     imageVector = ImageVector.vectorResource(onCompletedIconRes ?: iconRes),
-                    contentDescription = "Icon button action",
+                    contentDescription = stringResource(stringR.action_icon_button),
                     tint = contentColor
                 )
             }

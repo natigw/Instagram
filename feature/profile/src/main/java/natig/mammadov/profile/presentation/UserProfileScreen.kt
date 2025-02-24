@@ -74,7 +74,11 @@ fun UserProfileScreen() {
     Column(
         modifier = Modifier.background(BackgroundDefault)
     ) {
-        UserProfileTopBar("natig_w", true, true)
+        UserProfileTopBar(
+            username = "natig_w",
+            isUserVerified = true,
+            isNotificationsOn = true
+        )
         UserProfileInfo(
             profileInfoItem = ProfileInfoItemDto(
                 profilePicture = "https://picsum.photos/200/300",
@@ -485,23 +489,38 @@ fun UserProfileBio(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp)
-        ) {
-            var state by remember { mutableStateOf(ButtonState.ENABLED) }
-            ActiveButton(
-                modifier = Modifier.weight(1f),
-                state = state,
-                textEnabled = "Follow",
-                textCompleted = "Following",
-                addChevronOnCompleted = true,
-                onClick = {
-                    //request to api to follow and state->loading->completed
-                    state = ButtonState.COMPLETED
-                }
-            )
+        UserProfileActions(
+            canSuggestUsers = true,
+            canMessage = true,
+            canEmail = false
+        )
+    }
+}
+
+@Composable
+fun UserProfileActions(
+    canSuggestUsers: Boolean,
+    canMessage: Boolean,
+    canEmail: Boolean
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+    ) {
+        var state by remember { mutableStateOf(ButtonState.ENABLED) }
+        ActiveButton(
+            modifier = Modifier.weight(1f),
+            state = state,
+            textEnabled = "Follow",
+            textCompleted = "Following",
+            addChevronOnCompleted = true,
+            onClick = {
+                //request to api to follow and state->loading->completed
+                state = ButtonState.COMPLETED
+            }
+        )
+        if (canMessage) {
             Spacer(modifier = Modifier.width(4.dp))
             DefaultButton(
                 modifier = Modifier.weight(1f),
@@ -511,6 +530,8 @@ fun UserProfileBio(
 
                 }
             )
+        }
+        if (canEmail) {
             Spacer(modifier = Modifier.width(4.dp))
             DefaultButton(
                 modifier = Modifier.weight(1f),
@@ -520,10 +541,12 @@ fun UserProfileBio(
 
                 }
             )
+        }
+        if (canSuggestUsers) {
             Spacer(modifier = Modifier.width(4.dp))
             //TODO -> bu button ne vaxtsa mavi ve ya filled icon olur deqiqlesdir
             DefaultIconButton(
-             iconRes = drawableR.ic_suggested_users_outlined_16,
+                iconRes = drawableR.ic_suggested_users_outlined_16,
                 state = ButtonState.ENABLED,
                 onClick = {
 

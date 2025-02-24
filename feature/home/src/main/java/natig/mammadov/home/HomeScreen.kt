@@ -29,7 +29,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -43,16 +42,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import natig.mammadov.ui_toolkit.components.badges.ExclusiveBadge
+import natig.mammadov.ui_toolkit.components.badges.LiveBadge
+import natig.mammadov.ui_toolkit.components.buttons.ButtonState
+import natig.mammadov.ui_toolkit.components.buttons.circle.CircleIconButton
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
-import natig.mammadov.ui_toolkit.theme.BackgroundExclusive
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
-import natig.mammadov.ui_toolkit.theme.BackgroundLive
 import natig.mammadov.ui_toolkit.theme.BackgroundNotification
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BackgroundTranslucentInvertedSubtle
@@ -85,7 +85,22 @@ fun Home() {
         TopBar()
         Stories()
         Posts()
+        AllPostsSeen()
     }
+}
+
+@Composable
+fun AllPostsSeen() {
+    Icon(
+        modifier = Modifier
+            .size(100.dp)
+            .border(width = 15.dp, color = BackgroundDefault, shape = CircleShape)
+            .padding(2.5.dp)
+            .background(brush = GradientStory, shape = CircleShape),
+        imageVector = ImageVector.vectorResource(drawableR.ic_check_round_16),
+        tint = BackgroundDefault,
+        contentDescription = "You're all caught up"
+    )
 }
 
 @Composable
@@ -425,7 +440,7 @@ fun StoryItem(
             }
 
             if (storyItem.storyType == StoryType.LIVE) {
-                LiveBox(
+                LiveBadge(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .offset(y = 4.5.dp)
@@ -433,31 +448,22 @@ fun StoryItem(
             }
 
             if (storyItem.isUser) {
-                Surface(
+                CircleIconButton(
                     modifier = Modifier
-                        .size(24.dp)
                         .align(Alignment.BottomEnd)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = false),
-                            onClick = {
-
-                            }
-                        )
                         .border(width = 3.dp, color = BorderDefaultInverted, shape = CircleShape)
-                        .padding(3.dp)
-                        .clip(CircleShape),
-                    color = BackgroundInteractive
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(4.dp),
-                        imageVector = ImageVector.vectorResource(drawableR.ic_add_16),
-                        contentDescription = "Add story",
-                        tint = IconDefaultInverted
-                    )
-                }
+                        .padding(3.dp),
+                    iconRes = drawableR.ic_add_16,
+                    backgroundColor = BackgroundInteractive,
+                    iconColor = IconDefaultInverted,
+                    iconSize = 16.dp,
+                    iconPadding = 1.dp,
+                    contentDescription = "Add a story",
+                    state = ButtonState.ENABLED,
+                    onClick = {
+
+                    }
+                )
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -469,42 +475,6 @@ fun StoryItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-    }
-}
-
-@Composable
-fun LiveBox(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .size(width = 27.dp, height = 15.dp)
-                .clip(RoundedCornerShape(2.dp))
-                .border(
-                    width = 1.5.dp,
-                    color = BorderDefaultInverted,
-                    shape = RoundedCornerShape(2.dp)
-                )
-        )
-
-        Box(
-            modifier = Modifier
-                .size(width = 24.dp, height = 12.dp)
-                .clip(RoundedCornerShape(2.dp))
-                .background(color = BackgroundLive),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "LIVE",
-                textAlign = TextAlign.Center,
-                style = InstagramTypography.labelSmall.copy(
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextDefaultInverted
-                )
-            )
-        }
     }
 }
 
@@ -573,7 +543,7 @@ fun MultipleLiveStory(
                 contentScale = ContentScale.Crop
             )
         }
-        LiveBox(
+        LiveBadge(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .offset(x = 7.dp, y = 4.5.dp)
@@ -603,7 +573,6 @@ enum class PostRatio(val ratio: Float) {
     SQUARE(1f),     // 1:1
     LANDSCAPE(1.91f); // 1.91:1
 }
-
 
 @Composable
 fun ReelPostItem(
@@ -777,20 +746,7 @@ fun ReelPostItem(
                 }
 
                 if (reelItem.isExclusive) {
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(color = BackgroundExclusive)
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .padding(vertical = 2.dp, horizontal = 4.dp),
-                            imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
-                            contentDescription = "Exclusive reel",
-                            tint = IconDefaultInverted
-                        )
-                    }
+                    ExclusiveBadge(modifier = Modifier.padding(horizontal = 16.dp))
                 }
 
                 Icon(
@@ -828,40 +784,29 @@ fun ReelPostItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape)
-                        .background(color = BackgroundTranslucentInvertedSubtle)
-                        .padding(4.dp)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = false),
-                            onClick = {
-
-                            }
-                        ),
-                    imageVector = ImageVector.vectorResource(drawableR.ic_tagged_16),
+                CircleIconButton(
+                    iconRes = drawableR.ic_tagged_16,
+                    backgroundColor = BackgroundTranslucentInvertedSubtle,
+                    iconColor = IconDefaultInverted,
+                    iconSize = 16.dp,
+                    iconPadding = 4.dp,
                     contentDescription = "Tagged users to this reel",
-                    tint = IconDefaultInverted
+                    state = ButtonState.ENABLED,
+                    onClick = {
+
+                    }
                 )
-
-                Icon(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clip(CircleShape)
-                        .background(color = BackgroundTranslucentInvertedSubtle)
-                        .padding(4.dp)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = false),
-                            onClick = {
-
-                            }
-                        ),
-                    imageVector = ImageVector.vectorResource(drawableR.ic_sound_on_16),
+                CircleIconButton(
+                    iconRes = drawableR.ic_sound_on_16,
+                    backgroundColor = BackgroundTranslucentInvertedSubtle,
+                    iconColor = IconDefaultInverted,
+                    iconSize = 16.dp,
+                    iconPadding = 4.dp,
                     contentDescription = "Sound on this reel",
-                    tint = IconDefaultInverted
+                    state = ButtonState.ENABLED,
+                    onClick = {
+
+                    }
                 )
             }
         }
@@ -984,36 +929,11 @@ fun PostItem(
             }
 
             if (postItem.isExclusive) {
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(color = BackgroundExclusive)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(
-                            start = 4.dp,
-                            end = 6.dp,
-                            top = 2.dp,
-                            bottom = 2.dp
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(drawableR.ic_exclusive_16),
-                            contentDescription = "Exclusive reel",
-                            tint = IconDefaultInverted
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "Exclusive",
-                            style = InstagramTypography.bodySmall.copy(
-                                fontWeight = FontWeight.SemiBold,
-                                color = TextDefaultInverted
-                            )
-                        )
-                    }
-                }
+                ExclusiveBadge(
+                    //TODO -> burda nese problem var oz previewunda padding verende qoyur burda niyese yox, buna bax
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    withText = true
+                )
             }
 
             if (postItem.isSuggestedAccount) {
@@ -1089,24 +1009,20 @@ fun PostItem(
                 style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
             )
 
-            Icon(
+            CircleIconButton(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(12.dp)
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .background(color = BackgroundTranslucentInvertedSubtle)
-                    .padding(4.dp)
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
+                    .padding(12.dp),
+                iconRes = drawableR.ic_tagged_16,
+                backgroundColor = BackgroundTranslucentInvertedSubtle,
+                iconColor = IconDefaultInverted,
+                iconSize = 16.dp,
+                iconPadding = 4.dp,
+                contentDescription = "Tagged users to this reel",
+                state = ButtonState.ENABLED,
+                onClick = {
 
-                        }
-                    ),
-                imageVector = ImageVector.vectorResource(drawableR.ic_tagged_16),
-                contentDescription = "Tagged users to this post",
-                tint = IconDefaultInverted
+                }
             )
         }
 
@@ -1218,7 +1134,7 @@ fun AdPostItem(
                     Icon(
                         modifier = Modifier.size(12.dp),
                         imageVector = ImageVector.vectorResource(drawableR.ic_arrow_down_16),
-                        contentDescription = "Exclusive reel",
+                        contentDescription = "Follow action",
                         tint = IconDefault
                     )
                 }

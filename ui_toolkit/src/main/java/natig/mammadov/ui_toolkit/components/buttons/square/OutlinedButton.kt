@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +42,7 @@ import natig.mammadov.ui_toolkit.theme.TextButtonPadding
 import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextTranslucent
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
+import natig.mammadov.ui_toolkit.R.string as stringR
 
 @Composable
 fun OutlinedButton(
@@ -133,7 +135,7 @@ fun OutlinedButton(
                         Icon(
                             modifier = Modifier.size(12.dp),
                             imageVector = ImageVector.vectorResource(drawableR.ic_arrow_down_16),
-                            contentDescription = "Outlined button action",
+                            contentDescription = stringResource(stringR.action_outlined_button),
                             tint = contentColor
                         )
                     }

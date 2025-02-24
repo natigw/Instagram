@@ -9,3 +9,6 @@ import androidx.compose.ui.unit.dp
 val SquareButtonShape = RoundedCornerShape(6.dp)
 val PillButtonShape = RoundedCornerShape(8.dp)
 val CircularButtonShape = CircleShape
+
+val BadgeShape = RoundedCornerShape(4.dp)
+val SmallBadgeShape = RoundedCornerShape(2.dp)

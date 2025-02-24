@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Instagram</string>
+
+    <string name="next">Next</string>
+
+    <string name="live_badge">LIVE</string>
+    <string name="exclusive_badge">Exclusive</string>
+    <string name="exclusive_post">Exclusive post</string>
+    <string name="close_friends_badge">Close friends</string>
+    <string name="close_friends_post">Close friends post</string>
+    <string name="close_friends_badge_action">Close friends badge action</string>
+
+    <string name="add_story">Add story</string>
+
+    <string name="action_active_button">Active button action</string>
+    <string name="action_default_button">Default button action</string>
+    <string name="action_icon_button">Icon button action</string>
+    <string name="action_outlined_button">Outlined button action</string>
+    <string name="action_outlined_small_button">Outlined small button action</string>
+
+    <string name="tagged_people">Tagged people</string>
+
+</resources>

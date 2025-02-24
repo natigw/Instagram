@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -37,6 +38,7 @@ import natig.mammadov.ui_toolkit.theme.BackgroundTranslucentInvertedSubtle
 import natig.mammadov.ui_toolkit.theme.IconDefault
 import natig.mammadov.ui_toolkit.theme.IconDefaultInverted
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
+import natig.mammadov.ui_toolkit.R.string as stringR
 
 @Composable
 fun CircleIconButton(
@@ -47,6 +49,7 @@ fun CircleIconButton(
     iconPadding: Dp,
     backgroundColor: Color,
     iconColor: Color,
+    contentDescription: String? = null,
     state: ButtonState,
     onClick: (ButtonState) -> Unit
 ) {
@@ -71,7 +74,7 @@ fun CircleIconButton(
                 Icon(
                     modifier = Modifier.size(iconSize),
                     imageVector = ImageVector.vectorResource(iconRes),
-                    contentDescription = "Icon button action",
+                    contentDescription = contentDescription,
                     tint = iconColor
                 )
             }
@@ -89,7 +92,7 @@ fun CircleIconButton(
                 Icon(
                     modifier = Modifier.size(iconSize),
                     imageVector = ImageVector.vectorResource(onCompletedIconRes ?: iconRes),
-                    contentDescription = "Icon button action",
+                    contentDescription = contentDescription,
                     tint = iconColor
                 )
             }
@@ -125,6 +128,7 @@ private fun CircleIconButtonPrev() {
             iconPadding = 7.dp,
             backgroundColor = BackgroundTranslucentInvertedSubtle,
             iconColor = IconDefaultInverted,
+            contentDescription = null,
             state = state,
             onClick = {
                 state = when (state) {
@@ -141,6 +145,7 @@ private fun CircleIconButtonPrev() {
             iconPadding = 4.dp,
             backgroundColor = BackgroundTranslucentInvertedSubtle,
             iconColor = IconDefaultInverted,
+            contentDescription = stringResource(stringR.tagged_people),
             state = state,
             onClick = {
                 state = when (state) {
@@ -157,6 +162,7 @@ private fun CircleIconButtonPrev() {
             iconPadding = 1.dp,
             backgroundColor = BackgroundInteractive,
             iconColor = IconDefaultInverted,
+            contentDescription = stringResource(stringR.add_story),
             state = state,
             onClick = {
                 state = when (state) {
@@ -173,6 +179,7 @@ private fun CircleIconButtonPrev() {
             iconPadding = 7.dp,
             backgroundColor = BackgroundDefault,
             iconColor = IconDefault,
+            contentDescription = stringResource(stringR.next),
             state = state,
             onClick = {
                 state = when (state) {

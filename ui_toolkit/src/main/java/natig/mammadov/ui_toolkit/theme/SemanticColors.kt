@@ -79,3 +79,4 @@ val StickerGreen = Green100
 // System
 val SystemDark = Black100
 val SystemLight = White100
+val SystemTransparent = Transparent

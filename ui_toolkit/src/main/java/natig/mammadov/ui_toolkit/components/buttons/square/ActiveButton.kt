@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +45,7 @@ import natig.mammadov.ui_toolkit.theme.TextDefault
 import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSemiSubtle
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
+import natig.mammadov.ui_toolkit.R.string as stringR
 
 @Composable
 fun ActiveButton(
@@ -140,7 +142,7 @@ fun ActiveButton(
                         Icon(
                             modifier = Modifier.size(12.dp),
                             imageVector = ImageVector.vectorResource(drawableR.ic_arrow_down_16),
-                            contentDescription = "Active button action",
+                            contentDescription = stringResource(stringR.action_active_button),
                             tint = contentColor
                         )
                     }

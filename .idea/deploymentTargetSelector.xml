@@ -11,13 +11,13 @@
       <SelectionState runConfigName="UserProfileScreenPrev">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ProfileScreenPrev (1)">
+      <SelectionState runConfigName="ActiveButtonPrev">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PrimaryButtonPrev">
+      <SelectionState runConfigName="OutlinedButtonPrev">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="SamplePrev">
+      <SelectionState runConfigName="CircleIconButtonPrev">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

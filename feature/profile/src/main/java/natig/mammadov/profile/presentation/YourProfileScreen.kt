@@ -12,21 +12,18 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -49,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import natig.mammadov.ui_toolkit.components.buttons.ButtonState
+import natig.mammadov.ui_toolkit.components.buttons.circle.CircleIconButton
 import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
@@ -66,7 +64,6 @@ import natig.mammadov.ui_toolkit.theme.IconEmphasized
 import natig.mammadov.ui_toolkit.theme.IconLink
 import natig.mammadov.ui_toolkit.theme.IconSubtle
 import natig.mammadov.ui_toolkit.theme.InstagramTypography
-import natig.mammadov.ui_toolkit.theme.TextDefault
 import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSubtle
 import natig.mammadov.ui_toolkit.theme.TextTag
@@ -292,33 +289,23 @@ fun YourProfileInfo(
                 contentDescription = "Profile Picture",
                 contentScale = ContentScale.Crop
             )
-            Surface(
+
+            CircleIconButton(
                 modifier = Modifier
                     .offset(x = (-4).dp, y = (-4).dp)
-                    .size(24.dp)
                     .align(Alignment.BottomEnd)
-                    //TODO-> goresen bounded=true olmasi daha yaxsidi yoxsa bele?
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
-
-                        }
-                    )
                     .border(width = 3.dp, color = BorderDefaultInverted, shape = CircleShape)
-                    .padding(3.dp)
-                    .clip(CircleShape),
-                color = BackgroundInteractive
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(4.dp),
-                    imageVector = ImageVector.vectorResource(drawableR.ic_add_16),
-                    contentDescription = "Add story",
-                    tint = IconDefaultInverted
-                )
-            }
+                    .padding(3.dp),
+                iconRes = drawableR.ic_add_16,
+                backgroundColor = BackgroundInteractive,
+                iconColor = IconDefaultInverted,
+                iconSize = 16.dp,
+                iconPadding = 1.dp,
+                state = ButtonState.ENABLED,
+                onClick = {
+
+                }
+            )
         }
 
         Row(
@@ -493,7 +480,7 @@ fun YourProfileDashboard(
                     onClick = { }
                 )
                 .background(color = BackgroundSubtlerLight)
-                .padding(12.dp)
+                .padding(10.dp)
         ) {
             Text(
                 text = "Professional dashboard",

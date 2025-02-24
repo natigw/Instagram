@@ -53,7 +53,7 @@ fun ActiveButton(
     textEnabled: String,
     textDisabled: String? = null,
     textLoading: String? = null,
-    textSuccess: String? = null,
+    textCompleted: String? = null,
     addChevronOnCompleted: Boolean = false
 ) {
 
@@ -131,7 +131,7 @@ fun ActiveButton(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = textSuccess ?: textEnabled,
+                        text = textCompleted ?: textEnabled,
                         style = InstagramTypography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
                         color = contentColor
                     )

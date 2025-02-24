@@ -52,7 +52,7 @@ fun DefaultButton(
     textEnabled: String,
     textDisabled: String? = null,
     textLoading: String? = null,
-    textSuccess: String? = null,
+    textCompleted: String? = null,
     addChevronOnCompleted: Boolean = false
 ) {
 
@@ -130,7 +130,7 @@ fun DefaultButton(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = textSuccess ?: textEnabled,
+                        text = textCompleted ?: textEnabled,
                         style = InstagramTypography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
                         color = contentColor
                     )
@@ -172,7 +172,7 @@ private fun DefaultButtonPrev() {
         textDisabled = "disabled",
         textEnabled = "Button",
         //textLoading = "loading",
-        textSuccess = "successful",
+        textCompleted = "successful",
         addChevronOnCompleted = true,
         state = state,
         onClick = {

@@ -48,6 +48,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import natig.mammadov.ui_toolkit.components.buttons.ButtonState
+import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
 import natig.mammadov.ui_toolkit.theme.BackgroundNotification
@@ -506,47 +508,33 @@ fun YourProfileDashboard(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row {
-            ProfileOperateButton(
+            DefaultButton(
                 modifier = Modifier.weight(1f),
-                title = "Edit profile",
-                onClick = { })
-            Spacer(modifier = Modifier.width(4.dp))
-            ProfileOperateButton(
-                modifier = Modifier.weight(1f),
-                title = "Share profile",
-                onClick = { })
-            Spacer(modifier = Modifier.width(4.dp))
-            ProfileOperateButton(modifier = Modifier.weight(1f), title = "Email", onClick = { })
-        }
-    }
-}
+                state = ButtonState.ENABLED,
+                textEnabled = "Edit profile",
+                onClick = {
 
-@Composable
-fun ProfileOperateButton(
-    modifier: Modifier,
-    title: String,
-    isInteractive: Boolean = false,
-    onClick: () -> Unit
-) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(6.dp))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(bounded = true),
-                onClick = onClick
+                }
             )
-            .background(color = if (isInteractive) BackgroundInteractive else BackgroundSubtlerLight)
-            .padding(vertical = 6.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = title,
-            style = InstagramTypography.bodyLarge.copy(
-                fontWeight = FontWeight.SemiBold,
-                color = if (isInteractive) TextDefaultInverted else TextDefault
+            Spacer(modifier = Modifier.width(4.dp))
+            DefaultButton(
+                modifier = Modifier.weight(1f),
+                state = ButtonState.ENABLED,
+                textEnabled = "Share profile",
+                onClick = {
+
+                }
             )
-        )
+            Spacer(modifier = Modifier.width(4.dp))
+            DefaultButton(
+                modifier = Modifier.weight(1f),
+                state = ButtonState.ENABLED,
+                textEnabled = "Email",
+                onClick = {
+
+                }
+            )
+        }
     }
 }
 

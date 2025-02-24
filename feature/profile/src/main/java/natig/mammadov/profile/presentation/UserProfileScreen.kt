@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -21,13 +20,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,8 +46,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import natig.mammadov.ui_toolkit.components.buttons.ButtonState
+import natig.mammadov.ui_toolkit.components.buttons.square.ActiveButton
+import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
+import natig.mammadov.ui_toolkit.components.buttons.square.DefaultIconButton
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
-import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
 import natig.mammadov.ui_toolkit.theme.BorderDefault
@@ -59,8 +62,6 @@ import natig.mammadov.ui_toolkit.theme.IconDefault
 import natig.mammadov.ui_toolkit.theme.IconSubtle
 import natig.mammadov.ui_toolkit.theme.IconVerified
 import natig.mammadov.ui_toolkit.theme.InstagramTypography
-import natig.mammadov.ui_toolkit.theme.TextDefault
-import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSubtle
 import natig.mammadov.ui_toolkit.theme.TextTag
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
@@ -489,38 +490,44 @@ fun UserProfileBio(
                 .fillMaxWidth()
                 .padding(vertical = 12.dp)
         ) {
-            ProfileOperateButton(
+            var state by remember { mutableStateOf(ButtonState.ENABLED) }
+            ActiveButton(
                 modifier = Modifier.weight(1f),
-                title = "Follow",
-                isInteractive = true,
-                onClick = { })
+                state = state,
+                textEnabled = "Follow",
+                textCompleted = "Following",
+                addChevronOnCompleted = true,
+                onClick = {
+                    //request to api to follow and state->loading->completed
+                    state = ButtonState.COMPLETED
+                }
+            )
             Spacer(modifier = Modifier.width(4.dp))
-            ProfileOperateButton(
+            DefaultButton(
                 modifier = Modifier.weight(1f),
-                title = "Message",
-                onClick = { })
+                state = ButtonState.ENABLED,
+                textEnabled = "Message",
+                onClick = {
+
+                }
+            )
             Spacer(modifier = Modifier.width(4.dp))
-            ProfileOperateButton(
+            DefaultButton(
                 modifier = Modifier.weight(1f),
-                title = "Email",
-                onClick = { }
+                state = ButtonState.ENABLED,
+                textEnabled = "Email",
+                onClick = {
+
+                }
             )
             Spacer(modifier = Modifier.width(4.dp))
             //TODO -> bu button ne vaxtsa mavi ve ya filled icon olur deqiqlesdir
-            Icon(
-                modifier = modifier
-                    .clip(RoundedCornerShape(6.dp))
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = true),
-                        onClick = {
+            DefaultIconButton(
+             iconRes = drawableR.ic_suggested_users_outlined_16,
+                state = ButtonState.ENABLED,
+                onClick = {
 
-                        }
-                    )
-                    .background(color = BackgroundSubtlerLight) //if (isInteractive) BackgroundInteractive else BackgroundSubtlerLight)
-                    .padding(7.dp),
-                imageVector = ImageVector.vectorResource(drawableR.ic_suggested_users_outlined_16),
-                contentDescription = "Suggested user??"
+                }
             )
         }
     }

@@ -50,7 +50,7 @@ fun OutlinedButton(
     textEnabled: String,
     textDisabled: String? = null,
     textLoading: String? = null,
-    textSuccess: String? = null,
+    textCompleted: String? = null,
     addChevronOnCompleted: Boolean = false
 ) {
 
@@ -124,7 +124,7 @@ fun OutlinedButton(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = textSuccess ?: textEnabled,
+                        text = textCompleted ?: textEnabled,
                         style = InstagramTypography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
                         color = contentColor
                     )
@@ -166,7 +166,7 @@ private fun OutlinedButtonPrev() {
         textDisabled = "disabled",
         textEnabled = "Button",
         //textLoading = "loading",
-        textSuccess = "successful",
+        textCompleted = "successful",
         addChevronOnCompleted = true,
         state = state,
         onClick = {

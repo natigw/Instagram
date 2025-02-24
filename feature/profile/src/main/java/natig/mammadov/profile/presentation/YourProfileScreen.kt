@@ -753,6 +753,6 @@ enum class Pronoun(val pronounFull: String) {
 
 @Preview(showSystemUi = true)
 @Composable
-private fun UserProfileScreenPrev() {
+private fun YourProfileScreenPrev() {
     YourProfileScreen()
 }

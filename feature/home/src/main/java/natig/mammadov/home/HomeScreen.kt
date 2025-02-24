@@ -1042,7 +1042,7 @@ fun PostItem(
                         Icon(
                             modifier = Modifier.size(12.dp),
                             imageVector = ImageVector.vectorResource(drawableR.ic_arrow_down_16),
-                            contentDescription = "Exclusive reel",
+                            contentDescription = "Follow action",
                             tint = IconDefault
                         )
                     }

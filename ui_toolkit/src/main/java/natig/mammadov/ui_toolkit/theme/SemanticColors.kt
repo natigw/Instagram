@@ -1,11 +1,26 @@
 package natig.mammadov.ui_toolkit.theme
 
+
+
+// Button -> Bunlari ozum yaratdim bir deqiqlesdir
+val ButtonDefault = Gray20
+val ButtonDisabled = Gray30
+val ButtonLoading = Gray35
+val ButtonActive = Blue60
+
+// Outlined Button
+val OutlinedButtonDefault = White35
+val OutlinedButtonDisabled = White20
+
+
+
 // SEMANTIC TOKENS     //TODO -> figmada subtle renglerde problem var(codla reng uyusmur), deqiqlesdir, o birileri bilmirem duzdu ya yox
 
 // Text
 val TextDefault = Black100
 val TextDefaultInverted = White100
 val TextSubtle = Gray60
+val TextSemiSubtle = Gray70
 val TextSubtler = Gray80
 val TextTag = Blue100
 val TextLink = Blue60
@@ -16,6 +31,7 @@ val TextTranslucent = White70
 val IconDefault = Black100
 val IconDefaultInverted = White100
 val IconSubtle = Gray60  //TODO -> bunu deqiqlesdir gray100 yoxsa gray60, figmada problem var
+val IconSemiSubtle = Gray70
 val IconSubtler = Gray80
 val IconVerified = Blue60
 val IconLink = Blue60

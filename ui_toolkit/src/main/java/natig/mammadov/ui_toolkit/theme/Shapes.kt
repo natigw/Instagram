@@ -6,6 +6,6 @@ import androidx.compose.ui.unit.dp
 
 // Buttons
 //TODO -> bu deyerler const val olmalidir performance acisindan?
-val DefaultButtonShape = RoundedCornerShape(6.dp)
+val SquareButtonShape = RoundedCornerShape(6.dp)
 val PillButtonShape = RoundedCornerShape(8.dp)
 val CircularButtonShape = CircleShape

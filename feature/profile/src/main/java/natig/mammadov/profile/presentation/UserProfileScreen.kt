@@ -694,6 +694,6 @@ fun UserProfileTabItem(
 
 @Preview(showSystemUi = true)
 @Composable
-private fun ProfileScreenPrev() {
+private fun UserProfileScreenPrev() {
     UserProfileScreen()
 }

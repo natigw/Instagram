@@ -16,6 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 
 val LocalColorScheme = staticCompositionLocalOf { LightColorScheme }
 
+private val LightColorScheme = lightColorScheme(
+    primary = BackgroundDefaultInverted,
+    onPrimary = TextDefaultInverted,
+)
+
 private val DarkColorScheme = darkColorScheme(
     primary = BackgroundInteractive,
     onPrimary = TextDefault,
@@ -55,10 +60,6 @@ private val DarkColorScheme = darkColorScheme(
 //    surfaceDim = surfaceDim
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = BackgroundDefaultInverted,
-    onPrimary = TextDefaultInverted,
-)
 
 @Composable
 fun InstagramTheme(
@@ -69,9 +70,11 @@ fun InstagramTheme(
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme)
+                dynamicDarkColorScheme(context)
+            else
+                dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }

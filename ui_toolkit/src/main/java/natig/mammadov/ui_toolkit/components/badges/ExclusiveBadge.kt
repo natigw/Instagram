@@ -43,7 +43,7 @@ fun ExclusiveBadge(
             contentDescription = stringResource(stringR.exclusive_post),
             tint = IconDefaultInverted
         )
-        if (withText) {
+        if (withText) {  //TODO -> bele yaxsidi yoxsa withText ucun yeni component yazmaq (row da var)
             Text(
                 modifier = Modifier.padding(start = 4.dp, end = 2.dp),
                 text = stringResource(stringR.exclusive_badge),
@@ -62,6 +62,6 @@ private fun ExclusiveBadgePrev() {
     Column {
         ExclusiveBadge()
         Spacer(Modifier.height(4.dp))
-        ExclusiveBadge(modifier = Modifier.padding(10.dp), withText = true)
+        ExclusiveBadge(withText = true)
     }
 }

@@ -37,7 +37,7 @@ fun LiveBadge(modifier: Modifier = Modifier) {
 
 @Composable
 fun LiveBadgeWithStroke(modifier: Modifier = Modifier) {
-    Text(
+    LiveBadge(
         modifier = modifier
             .border(
                 width = 1.5.dp,
@@ -45,13 +45,6 @@ fun LiveBadgeWithStroke(modifier: Modifier = Modifier) {
                 shape = BadgeShape
             )
             .padding(1.5.dp)
-            .background(color = BackgroundLive)
-            .padding(horizontal = 4.dp, vertical = 2.dp),
-        text = stringResource(stringR.live_badge),
-        style = InstagramTypography.labelSmall.copy(
-            fontWeight = FontWeight.SemiBold,
-            color = TextDefaultInverted
-        )
     )
 }
 

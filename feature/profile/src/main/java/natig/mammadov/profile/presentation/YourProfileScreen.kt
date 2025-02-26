@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,9 +47,11 @@ import coil3.compose.AsyncImage
 import natig.mammadov.ui_toolkit.components.buttons.ButtonState
 import natig.mammadov.ui_toolkit.components.buttons.circle.CircleIconButton
 import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
+import natig.mammadov.ui_toolkit.components.badges.notifications.NotificationBubbleWithCount
+import natig.mammadov.ui_toolkit.components.badges.notifications.NotificationDotWithBorder
+import natig.mammadov.ui_toolkit.components.badges.notifications.ThreadsNotificationDot
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
-import natig.mammadov.ui_toolkit.theme.BackgroundNotification
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
 import natig.mammadov.ui_toolkit.theme.BorderDefault
@@ -60,11 +61,8 @@ import natig.mammadov.ui_toolkit.theme.BorderSubtler
 import natig.mammadov.ui_toolkit.theme.GradientStory
 import natig.mammadov.ui_toolkit.theme.IconDefault
 import natig.mammadov.ui_toolkit.theme.IconDefaultInverted
-import natig.mammadov.ui_toolkit.theme.IconEmphasized
-import natig.mammadov.ui_toolkit.theme.IconLink
 import natig.mammadov.ui_toolkit.theme.IconSubtle
 import natig.mammadov.ui_toolkit.theme.InstagramTypography
-import natig.mammadov.ui_toolkit.theme.TextDefaultInverted
 import natig.mammadov.ui_toolkit.theme.TextSubtle
 import natig.mammadov.ui_toolkit.theme.TextTag
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
@@ -179,25 +177,12 @@ fun YourProfileTopBar(
                 contentDescription = "Threads on your profile",
                 tint = IconDefault
             )
-            Box(
+            NotificationBubbleWithCount(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .offset(x = 7.dp, y = (-5).dp)
-                    .wrapContentWidth()
-                    .height(16.dp)
-                    .background(color = BackgroundNotification, shape = RoundedCornerShape(16.dp))
-                    .padding(horizontal = 5.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "1",
-                    style = InstagramTypography.labelMedium.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        color = TextDefaultInverted
-                    ),
-                    maxLines = 1
-                )
-            }
+                    .offset(x = 7.dp, y = (-5).dp),
+                count = 1
+            )
         }
 
         Spacer(modifier = Modifier.width(16.dp))
@@ -232,13 +217,7 @@ fun YourProfileTopBar(
                 contentDescription = "Menu",
                 tint = IconDefault
             )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .size(8.dp)
-                    .clip(CircleShape)
-                    .background(color = IconEmphasized)
-            )
+            NotificationDotWithBorder(modifier = Modifier.align(Alignment.TopEnd))
         }
     }
 }
@@ -407,11 +386,7 @@ fun YourProfileBio(
                 style = InstagramTypography.bodySmall
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Box(
-                modifier = Modifier
-                    .size(5.dp)
-                    .background(color = IconLink, shape = CircleShape)
-            )
+            ThreadsNotificationDot()
         }
 
         Spacer(modifier = Modifier.height(6.dp))

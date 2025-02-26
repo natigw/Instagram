@@ -50,6 +50,7 @@ import natig.mammadov.ui_toolkit.components.buttons.ButtonState
 import natig.mammadov.ui_toolkit.components.buttons.square.ActiveButton
 import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
 import natig.mammadov.ui_toolkit.components.buttons.square.DefaultIconButton
+import natig.mammadov.ui_toolkit.components.badges.notifications.ThreadsNotificationDot
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
@@ -380,11 +381,7 @@ fun UserProfileBio(
 //                style = InstagramTypography.bodySmall
 //            )
 //            Spacer(modifier = Modifier.width(4.dp))
-//            Box(
-//                modifier = Modifier
-//                    .size(5.dp)
-//                    .background(color = IconLink, shape = CircleShape)
-//            )
+//            ThreadsNotificationDot()
 //        }
 
         Spacer(modifier = Modifier.height(6.dp))

@@ -1,6 +1,7 @@
 package natig.mammadov.home
 
 import android.util.Log
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -45,15 +45,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import natig.mammadov.ui_toolkit.components.badges.ExclusiveBadge
-import natig.mammadov.ui_toolkit.components.badges.LiveBadge
+import natig.mammadov.ui_toolkit.components.badges.LiveBadgeWithStroke
+import natig.mammadov.ui_toolkit.components.badges.notifications.NotificationBubbleWithCount
+import natig.mammadov.ui_toolkit.components.badges.notifications.NotificationDotWithBorder
 import natig.mammadov.ui_toolkit.components.buttons.ButtonState
+import natig.mammadov.ui_toolkit.components.buttons.ad.fullWidth.ActiveFullWidthSquareAdButton
 import natig.mammadov.ui_toolkit.components.buttons.circle.CircleIconButton
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
-import natig.mammadov.ui_toolkit.theme.BackgroundNotification
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BackgroundTranslucentInvertedSubtle
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
@@ -127,18 +130,7 @@ fun TopBar() {
                 contentDescription = "Notifications",
                 tint = IconDefault
             )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .size(11.dp)
-                    .offset(
-                        x = 1.dp,
-                        y = (-1).dp
-                    )  //TODO-> bu designda offset yoxdu ama qoymayanda eyni olmadi axi??
-                    .border(width = 1.5.dp, color = BorderDefaultInverted, shape = CircleShape)
-                    .padding(1.dp)
-                    .background(color = IconEmphasized, shape = CircleShape)
-            )
+            NotificationDotWithBorder(modifier = Modifier.align(Alignment.TopEnd))
 
             //TODO -> message bubble qalib duzeltmek custom shape?
         }
@@ -152,25 +144,12 @@ fun TopBar() {
                 contentDescription = "Share",
                 tint = IconDefault
             )
-            Box(
+            NotificationBubbleWithCount(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .offset(x = 7.dp, y = (-5).dp)
-                    .wrapContentWidth()
-                    .height(16.dp)
-                    .background(color = BackgroundNotification, shape = CircleShape)
-                    .padding(horizontal = 6.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "5",
-                    style = InstagramTypography.labelMedium.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        color = TextDefaultInverted
-                    ),
-                    maxLines = 1
-                )
-            }
+                    .offset(x = 7.dp, y = (-5).dp),
+                count = 5
+            )
         }
     }
 }
@@ -364,6 +343,7 @@ fun StoryItem(
         modifier = Modifier.width(78.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Box(
             modifier = Modifier.size(78.dp)
         ) {
@@ -440,7 +420,7 @@ fun StoryItem(
             }
 
             if (storyItem.storyType == StoryType.LIVE) {
-                LiveBadge(
+                LiveBadgeWithStroke(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .offset(y = 4.5.dp)
@@ -543,7 +523,7 @@ fun MultipleLiveStory(
                 contentScale = ContentScale.Crop
             )
         }
-        LiveBadge(
+        LiveBadgeWithStroke(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .offset(x = 7.dp, y = 4.5.dp)
@@ -1202,34 +1182,13 @@ fun AdPostItem(
             )
         }
 
-        Row(
-            modifier = Modifier
-                .background(BackgroundInteractive)
-                .padding(horizontal = 12.dp, vertical = 6.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "Call to action",
-                style = InstagramTypography.bodyLarge.copy(
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextDefaultInverted
-                )
-            )
-            Icon(
-                modifier = Modifier
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
+        ActiveFullWidthSquareAdButton(
+            textCallToAction = "Call to action",
+            state = ButtonState.ENABLED,
+            onClick = {
 
-                        }
-                    ),
-                imageVector = ImageVector.vectorResource(drawableR.ic_arrow_right),
-                contentDescription = "Proceed call to action",
-                tint = IconDefaultInverted
-            )
-        }
+            }
+        )
 
         PostDetails(postDetails)
     }

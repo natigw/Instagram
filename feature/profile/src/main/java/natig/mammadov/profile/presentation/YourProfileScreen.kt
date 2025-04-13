@@ -17,12 +17,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -44,12 +46,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import natig.mammadov.ui_toolkit.components.buttons.ButtonState
-import natig.mammadov.ui_toolkit.components.buttons.circle.CircleIconButton
-import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
 import natig.mammadov.ui_toolkit.components.badges.notifications.NotificationBubbleWithCount
 import natig.mammadov.ui_toolkit.components.badges.notifications.NotificationDotWithBorder
 import natig.mammadov.ui_toolkit.components.badges.notifications.ThreadsNotificationDot
+import natig.mammadov.ui_toolkit.components.buttons.ButtonState
+import natig.mammadov.ui_toolkit.components.buttons.circle.CircleIconButton
+import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
@@ -69,59 +71,67 @@ import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
 @Composable
 fun YourProfileScreen() {
-    Column(
-        modifier = Modifier.background(BackgroundDefault)
-    ) {
-        YourProfileTopBar(username = "username")
-        YourProfileInfo(
-            profileInfoItem = ProfileInfoItemDto(
-                profilePicture = "https://picsum.photos/200/300",
-                storyType = StoryType.REGULAR,
-                hasAlreadySeen = false,
-                postCount = 151,
-                followerCount = 112,
-                followingCount = 62
-            )
-        )
-        YourProfileBio(
-            bioItem = ProfileBioItemDto(
-                username = "gursky.studio",
-                fullName = "Natig Mammadov",
-                pronoun = Pronoun.HE,
-                threadsUpdateCount = 2,
-                bioHeading = "Android developer",
-                bioBody = "visual designer. diehard UI/UX nerd. mobile fiend. icons lover.",
-                bioHashtags = listOf("#yourmomsfavorite", "#samplehastag"),
-                links = listOf("gursky.studio", "link2", "link3", "link4")
-            )
-        )
-        YourProfileDashboard(
-            dashboardItem = ProfileDashboardItemDto(interactionCount = 1622)
-        )
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(8) {
-                YourHighlightItem(
-                    highlightItem = ProfileHighlightItemDto(
-                        title = "Highlight 2",
-                        imageLink = "sad"
-                    )
-                )
-            }
-            item {
-                YourHighlightItem(
-                    highlightItem = ProfileHighlightItemDto(
-                        title = "Highlight 2",
-                        imageLink = "sad",
-                        isAddNew = true
-                    )
-                )
-            }
+    Scaffold(
+        modifier = Modifier.systemBarsPadding(),
+        topBar = {
+            YourProfileTopBar(username = "username")
         }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(BackgroundDefault)
+        ) {
+            YourProfileInfo(
+                profileInfoItem = ProfileInfoItemDto(
+                    profilePicture = "https://picsum.photos/200/300",
+                    storyType = StoryType.REGULAR,
+                    hasAlreadySeen = false,
+                    postCount = 151,
+                    followerCount = 112,
+                    followingCount = 62
+                )
+            )
+            YourProfileBio(
+                bioItem = ProfileBioItemDto(
+                    username = "gursky.studio",
+                    fullName = "Natig Mammadov",
+                    pronoun = Pronoun.HE,
+                    threadsUpdateCount = 2,
+                    bioHeading = "Android developer",
+                    bioBody = "visual designer. diehard UI/UX nerd. mobile fiend. icons lover.",
+                    bioHashtags = listOf("#yourmomsfavorite", "#samplehastag"),
+                    links = listOf("gursky.studio", "link2", "link3", "link4")
+                )
+            )
+            YourProfileDashboard(
+                dashboardItem = ProfileDashboardItemDto(interactionCount = 1622)
+            )
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(4) {
+                    YourHighlightItem(
+                        highlightItem = ProfileHighlightItemDto(
+                            title = "Highlight 2",
+                            imageLink = "sad"
+                        )
+                    )
+                }
+                item {
+                    YourHighlightItem(
+                        highlightItem = ProfileHighlightItemDto(
+                            title = "Highlight 2",
+                            imageLink = "sad",
+                            isAddNew = true
+                        )
+                    )
+                }
+            }
 
-        YourProfileTabs(hasExclusivePosts = true)
+            YourProfileTabs(hasExclusivePosts = true)
+        }
     }
 }
 

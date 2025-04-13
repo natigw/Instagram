@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -22,6 +23,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -40,8 +42,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import natig.mammadov.ui_toolkit.components.buttons.ButtonState
+import natig.mammadov.ui_toolkit.components.buttons.ad.fullWidth.ActiveFullWidthSquareAdButton
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
-import natig.mammadov.ui_toolkit.theme.BackgroundInteractive
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BackgroundTranslucentInverted
 import natig.mammadov.ui_toolkit.theme.BorderSubtler
@@ -58,32 +61,38 @@ import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
 @Composable
 fun SearchScreen() {
-    Column(
-        modifier = Modifier.background(color = BackgroundDefault)
-    ) {
-
-        SearchBox()
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            verticalArrangement = Arrangement.spacedBy(1.dp),
-            horizontalArrangement = Arrangement.spacedBy(1.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(11) {
-                BigSponsoredPost(
-                    ExploreItemDto(
-                        ratio = ExploreRatio.BIG_SQUARE,
-                        imageLink = "https://picsum.photos/900/1600",
-                        isMultiPost = Random.nextBoolean(),
-                        isReel = Random.nextBoolean(),
-                        isSponsored = Random.nextBoolean(),
-                        username = "username",
-                        profilePicture = "https://picsum.photos/900/1600"
-                    )
-                )
-            }
+    Scaffold(
+        modifier = Modifier.systemBarsPadding(),
+        topBar = {
+            SearchBox()
         }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(color = BackgroundDefault)
+        ) {
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                verticalArrangement = Arrangement.spacedBy(1.dp),
+                horizontalArrangement = Arrangement.spacedBy(1.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(11) {
+                    BigSponsoredPost(
+                        ExploreItemDto(
+                            ratio = ExploreRatio.BIG_SQUARE,
+                            imageLink = "asum.photos/900/1600",
+                            isMultiPost = Random.nextBoolean(),
+                            isReel = Random.nextBoolean(),
+                            isSponsored = Random.nextBoolean(),
+                            username = "username",
+                            profilePicture = "asum.photos/900/1600"
+                        )
+                    )
+                }
+            }
 
 //    LazyVerticalGrid(
 //        columns = GridCells.Fixed(3),
@@ -95,16 +104,17 @@ fun SearchScreen() {
 //            ExplorePost(
 //                ExploreItemDto(
 //                    ratio = ExploreRatio.SQUARE,
-//                    imageLink = "https://picsum.photos/900/1600",
+//                    imageLink = "asum.photos/900/1600",
 //                    isMultiPost = Random.nextBoolean(),
 //                    isReel = Random.nextBoolean(),
 //                    isSponsored = Random.nextBoolean(),
 //                    username = "username",
-//                    profilePicture = "https://picsum.photos/900/1600"
+//                    profilePicture = "asum.photos/900/1600"
 //                )
 //            )
 //        }
 //    }
+        }
     }
 }
 
@@ -313,35 +323,15 @@ fun BigSponsoredPost(
             )
         }
 
-        Row(
+        ActiveFullWidthSquareAdButton(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .background(BackgroundInteractive)
-                .padding(horizontal = 12.dp, vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "Call to action",
-                style = InstagramTypography.bodyLarge.copy(
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextDefaultInverted
-                )
-            )
-            Icon(
-                modifier = Modifier
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
-                        onClick = {
+                .align(Alignment.BottomCenter),
+            textCallToAction = "Call to action",
+            state = ButtonState.ENABLED,
+            onClick = {
 
-                        }
-                    ),
-                imageVector = ImageVector.vectorResource(drawableR.ic_arrow_right_16),
-                contentDescription = "Proceed call to action",
-                tint = IconDefaultInverted
-            )
-        }
+            }
+        )
     }
 }
 

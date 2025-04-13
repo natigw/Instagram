@@ -1,7 +1,6 @@
 package natig.mammadov.home
 
 import android.util.Log
-import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,6 +29,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -45,7 +46,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import natig.mammadov.ui_toolkit.components.badges.ExclusiveBadge
@@ -81,14 +81,26 @@ import kotlin.random.Random
 import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
 @Composable
-fun Home() {
-    Column(
-        modifier = Modifier.background(color = BackgroundDefault)
-    ) {
-        TopBar()
-        Stories()
-        Posts()
-        AllPostsSeen()
+fun HomeScreen() {
+    Scaffold(
+        modifier = Modifier
+            .systemBarsPadding(),
+        topBar = {
+            TopBar()
+        },
+        bottomBar = {
+
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(color = BackgroundDefault)
+        ) {
+            Stories()
+            Posts()
+            AllPostsSeen()
+        }
     }
 }
 
@@ -218,11 +230,11 @@ fun Posts() {
                     ),
                     userLikingPost = "user_your_friend",
                     profilePictureAuthor = "https://picsum.photos/200/300",
-                    usernameAuthor = "author_ww_long_nameeeee_salam",
-                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
-                    usernameCommenter = "commenter_6889",
-                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
-                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    usernameAuthor = "author_long_username",
+                    postDescription = "Some description goes here ".repeat(5),
+                    usernameCommenter = "commenter_username",
+                    commentCommenter = "Some commenter comment goes here".repeat(5),
+                    hashtagsCommenter = listOf("NatureBeauty", "hashtagSample"),
                     isCommentLiked = Random.nextBoolean(),
                     postDate = "11 January"
                 )
@@ -253,11 +265,11 @@ fun Posts() {
                     ),
                     userLikingPost = "user_your_friend",
                     profilePictureAuthor = "https://picsum.photos/200/300",
-                    usernameAuthor = "author_ww_long_nameeeee_salam",
-                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
-                    usernameCommenter = "commenter_6889",
-                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
-                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    usernameAuthor = "author_long_username",
+                    postDescription = "Some description goes here ".repeat(5),
+                    usernameCommenter = "commenter_username",
+                    commentCommenter = "Some commenter comment goes here".repeat(5),
+                    hashtagsCommenter = listOf("NatureBeauty", "hashtagSample"),
                     isCommentLiked = Random.nextBoolean(),
                     postDate = "11 January"
                 )
@@ -285,11 +297,11 @@ fun Posts() {
                     ),
                     userLikingPost = "user_your_friend",
                     profilePictureAuthor = "https://picsum.photos/200/300",
-                    usernameAuthor = "author_ww_long_nameeeee_salam",
-                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
-                    usernameCommenter = "commenter_6889",
-                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
-                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    usernameAuthor = "author_long_username",
+                    postDescription = "Some description goes here ".repeat(5),
+                    usernameCommenter = "commenter_username",
+                    commentCommenter = "Some commenter comment goes here".repeat(5),
+                    hashtagsCommenter = listOf("NatureBeauty", "hashtagSample"),
                     isCommentLiked = Random.nextBoolean(),
                     postDate = "11 January"
                 )
@@ -320,11 +332,11 @@ fun Posts() {
                     ),
                     userLikingPost = "user_your_friend",
                     profilePictureAuthor = "https://picsum.photos/200/300",
-                    usernameAuthor = "author_ww_long_nameeeee_salam",
-                    postDescription = "sadjnbks dasd sad ask dasdj asdk asd asd saj djsa djas dj hashjd ash dhj jh shj dasdasdasdasjd asj djas dj sajd hjfdsjhjh hja sdha sdja sjd asj",
-                    usernameCommenter = "commenter_6889",
-                    commentCommenter = "ekfnskdnf ksdf sdkjf sdkj fsdkjfsdfsdkf dskjf sdjkf sdkjf sdk fd fksd fksd fsd",
-                    hashtagsCommenter = listOf("NatureBeauty", "hash"),
+                    usernameAuthor = "author_long_username",
+                    postDescription = "Some description goes here ".repeat(5),
+                    usernameCommenter = "commenter_username",
+                    commentCommenter = "Some commenter comment goes here".repeat(5),
+                    hashtagsCommenter = listOf("NatureBeauty", "hashtagSample"),
                     isCommentLiked = Random.nextBoolean(),
                     postDate = "11 January"
                 )
@@ -371,7 +383,11 @@ fun StoryItem(
                                 .padding(5.dp)
                                 .background(color = BorderDefault, shape = CircleShape)
                                 .background(brush = GradientLiveSubtle)
-                                .border(width = 3.dp, color = BorderDefault, shape = CircleShape)
+                                .border(
+                                    width = 3.dp,
+                                    color = BorderDefault,
+                                    shape = CircleShape
+                                )
                                 .clip(CircleShape)
                         ) {
                             AsyncImage(
@@ -431,7 +447,11 @@ fun StoryItem(
                 CircleIconButton(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .border(width = 3.dp, color = BorderDefaultInverted, shape = CircleShape)
+                        .border(
+                            width = 3.dp,
+                            color = BorderDefaultInverted,
+                            shape = CircleShape
+                        )
                         .padding(3.dp),
                     iconRes = drawableR.ic_add_16,
                     backgroundColor = BackgroundInteractive,
@@ -983,7 +1003,10 @@ fun PostItem(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 12.dp, end = 12.dp)
-                    .background(color = BackgroundTranslucentInvertedSubtle, shape = CircleShape)
+                    .background(
+                        color = BackgroundTranslucentInvertedSubtle,
+                        shape = CircleShape
+                    )
                     .padding(horizontal = 6.dp, vertical = 4.dp),
                 text = "2/5",
                 style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
@@ -1155,7 +1178,10 @@ fun AdPostItem(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 12.dp, end = 12.dp)
-                    .background(color = BackgroundTranslucentInvertedSubtle, shape = CircleShape)
+                    .background(
+                        color = BackgroundTranslucentInvertedSubtle,
+                        shape = CircleShape
+                    )
                     .padding(horizontal = 6.dp, vertical = 4.dp),
                 text = "1/5",
                 style = InstagramTypography.bodySmall.copy(color = TextDefaultInverted)
@@ -1372,7 +1398,8 @@ fun PostDetails(
                     }
                     //TODO -> space before hashtags
                     withStyle(
-                        style = InstagramTypography.bodyLarge.copy(color = TextTag).toSpanStyle()
+                        style = InstagramTypography.bodyLarge.copy(color = TextTag)
+                            .toSpanStyle()
                     ) {
                         postDetails.hashtagsCommenter?.forEach {
                             append("#$it")
@@ -1493,7 +1520,7 @@ fun SuggestedReels() {
         ) {
             items(20) {
                 ReelPortraitItem(
-                    imageLink = "https://picsum.photos/900/1600"
+                    imageLink = "asum.photos/900/1600"
                 )
             }
         }
@@ -1522,7 +1549,7 @@ fun ReelPortraitItem(
 @Composable
 fun LiveStory(modifier: Modifier = Modifier) {  //TODO -> bu en yaxsi versiyadi esas yerlerde evez et
     AsyncImage(
-        modifier = Modifier
+        modifier = modifier
             .size(78.dp) //fillMaxSize()
             .border(width = 3.dp, brush = GradientStory, shape = CircleShape)
             .padding(5.dp)
@@ -1549,5 +1576,5 @@ fun LiveStory(modifier: Modifier = Modifier) {  //TODO -> bu en yaxsi versiyadi 
 @Preview(showSystemUi = true)
 @Composable
 private fun HomePrev() {
-    Home()
+    HomeScreen()
 }

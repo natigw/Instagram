@@ -17,11 +17,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,7 +52,6 @@ import natig.mammadov.ui_toolkit.components.buttons.ButtonState
 import natig.mammadov.ui_toolkit.components.buttons.square.ActiveButton
 import natig.mammadov.ui_toolkit.components.buttons.square.DefaultButton
 import natig.mammadov.ui_toolkit.components.buttons.square.DefaultIconButton
-import natig.mammadov.ui_toolkit.components.badges.notifications.ThreadsNotificationDot
 import natig.mammadov.ui_toolkit.theme.BackgroundDefault
 import natig.mammadov.ui_toolkit.theme.BackgroundSubtlerLight
 import natig.mammadov.ui_toolkit.theme.BorderCloseFriends
@@ -72,54 +73,62 @@ import natig.mammadov.ui_toolkit.R.drawable as drawableR
 
 @Composable
 fun UserProfileScreen() {
-    Column(
-        modifier = Modifier.background(BackgroundDefault)
-    ) {
-        UserProfileTopBar(
-            username = "natig_w",
-            isUserVerified = true,
-            isNotificationsOn = true
-        )
-        UserProfileInfo(
-            profileInfoItem = ProfileInfoItemDto(
-                profilePicture = "https://picsum.photos/200/300",
-                storyType = StoryType.REGULAR,
-                hasAlreadySeen = false,
-                postCount = 151,
-                followerCount = 112,
-                followingCount = 62
+    Scaffold(
+        modifier = Modifier.systemBarsPadding(),
+        topBar = {
+            UserProfileTopBar(
+                username = "natig_w",
+                isUserVerified = true,
+                isNotificationsOn = true
             )
-        )
-        UserProfileBio(
-            bioItem = ProfileBioItemDto(
-                username = "gursky.studio",
-                fullName = "Natig Mammadov",
-                pronoun = Pronoun.HE,
-                threadsUpdateCount = 2,
-                bioHeading = "Android developer",
-                bioBody = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecat... more",
-                bioHashtags = listOf("#yourmomsfavorite", "#samplehastag"),
-                links = listOf("gursky.studio", "link2", "link3", "link4")
-            ),
-            mutualUserProfilePicturesLikingPost = listOf("df", "dsfsds", "sdf"),
-            mutualUsersLikingPost = listOf("your.friend", "another_friend"),
-            mutualFollowerCount = 17
-        )
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(8) {
-                UserHighlightItem(
-                    highlightItem = ProfileHighlightItemDto(
-                        title = "Highlight 2",
-                        imageLink = "sad"
-                    )
-                )
-            }
         }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(BackgroundDefault)
+        ) {
+            UserProfileInfo(
+                profileInfoItem = ProfileInfoItemDto(
+                    profilePicture = "https://picsum.photos/200/300",
+                    storyType = StoryType.REGULAR,
+                    hasAlreadySeen = false,
+                    postCount = 151,
+                    followerCount = 112,
+                    followingCount = 62
+                )
+            )
+            UserProfileBio(
+                bioItem = ProfileBioItemDto(
+                    username = "gursky.studio",
+                    fullName = "Natig Mammadov",
+                    pronoun = Pronoun.HE,
+                    threadsUpdateCount = 2,
+                    bioHeading = "Android developer",
+                    bioBody = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecat... more",
+                    bioHashtags = listOf("#yourmomsfavorite", "#samplehastag"),
+                    links = listOf("gursky.studio", "link2", "link3", "link4")
+                ),
+                mutualUserProfilePicturesLikingPost = listOf("df", "dsfsds", "sdf"),
+                mutualUsersLikingPost = listOf("your.friend", "another_friend"),
+                mutualFollowerCount = 17
+            )
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(8) {
+                    UserHighlightItem(
+                        highlightItem = ProfileHighlightItemDto(
+                            title = "Highlight 2",
+                            imageLink = "sad"
+                        )
+                    )
+                }
+            }
 
-        UserProfileTabs(hasExclusivePosts = true)
+            UserProfileTabs(hasExclusivePosts = true)
+        }
     }
 }
 
